@@ -2,7 +2,7 @@
      <div class="card shadow mb-4">
          <div class="card-header py-3">
              <h6 class="float-left font-weight-bold text-primary">Data <?= $title ?></h6>
-             <a href="<?= base_url('ss') ?>" class="btn btn-success btn-sm float-right">Tambah</a>
+             <h6 class="float-right font-weight-bold text-danger">Tanggal : <?= $tanggal ?></h6>
          </div>
          <div class="card-body">
              <div class="table-responsive">

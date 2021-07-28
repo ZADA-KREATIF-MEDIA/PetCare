@@ -21,7 +21,7 @@ if (!function_exists('tanggal_indo')) {
   }
 }
 
-function adminView($page = null, $data = null)
+function templateAdmin($page = null, $data = null)
 {
     $ci = get_instance();
 
