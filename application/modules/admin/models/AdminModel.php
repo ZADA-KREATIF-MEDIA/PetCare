@@ -5,14 +5,14 @@ class AdminModel extends CI_Model
 
     public function getAllUsers()
     {
-        $username = $this->session->userdata('username');
+        $email = $this->session->userdata('email');
         if($this->session->userdata('level') == 1){
-            $this->db->where('username != ',$username);
+            $this->db->where('email != ',$email);
             $query = $this->db->get('admin');
             return $query->result();
 
         }else if($this->session->userdata('level') == 2){
-            $this->db->where('username != ',$username);
+            $this->db->where('email != ',$email);
             $this->db->where('level != ',1);
             $query = $this->db->get('admin');
             return $query->result();
@@ -21,7 +21,7 @@ class AdminModel extends CI_Model
     public function create()
     {
         $data = [
-            "username" => $this->input->post('username',true),
+            "email" => $this->input->post('email',true),
             "password" => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
             "level" => $this->input->post('level', true),
             "status" => $this->input->post('status', true)
@@ -32,20 +32,20 @@ class AdminModel extends CI_Model
     public function update()
     {
         $id = $this->input->post('id_admin', true);
-        $username = $this->input->post('username',true);
+        $email = $this->input->post('email',true);
         $password = $this->input->post('password');
         $level = $this->input->post('level', true);
         $status = $this->input->post('status', true);
 
         if(empty($password)){
             $data = [
-                "username" => $username,
+                "email" => $email,
                 "level" => $level,
                 "status" => $status
             ];
         }else{
             $data = [
-                "username" => $username,
+                "email" => $email,
                 "password" => password_hash($password, PASSWORD_DEFAULT),
                 "level" => $level,
                 "status" => $status
@@ -70,9 +70,9 @@ class AdminModel extends CI_Model
         }
     }
 
-    public function getAdmin($username)
+    public function getAdmin($email)
     {
-        return $this->db->get_where('admin', ['username' => $username])->row();
+        return $this->db->get_where('admin', ['email' => $email])->row();
     }
 
 
