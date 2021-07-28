@@ -60,11 +60,7 @@
          </div>
       </div>
       <div class="owl-carousel owl-all">
-         <?php foreach($iklan as $ikln):?>
-            <div class="block__35630">
-               <img src="<?php echo base_url()?>assets/frontend/img/iklan/<?php echo $ikln['gambar_iklan'];?>" alt="Iklan">
-            </div>
-         <?php endforeach;?>
+        
       </div>
    </div>
 </div>
