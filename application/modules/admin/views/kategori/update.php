@@ -5,11 +5,12 @@
         </div>
         <div class="card-body">
             <div class="col-md-6">
-                <form action="<?= base_url('admin/kategori/store') ?>" method="POST">
+                <form action="<?= base_url('admin/kategori/update_save') ?>" method="POST">
+                <input type="hidden" name="id" id="id" value="<?= $kategori->id; ?>"/>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="nama" id="nama_kategori" placeholder="Masukan nama kategori produk/layanan .....">
+                        <input type="text" class="form-control" name="nama" value="<?= $kategori->nama ?>" placeholder="Masukan nama kategori produk/layanan ....." required>
                         <div class="input-group-append">
-                            <button class="btn btn-success" type="submit">Simpan</button>
+                            <button class="btn btn-warning" type="submit">Update</button>
                         </div>
                     </div>
                 </form>
