@@ -1,7 +1,7 @@
 <?php
 class TarifModel extends CI_Model
 {
-    protected $table = 'tarif';
+    protected $table = 'tarif_ongkir';
 
     public function getAll()
     {

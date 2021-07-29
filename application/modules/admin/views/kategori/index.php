@@ -2,7 +2,15 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="float-left font-weight-bold text-primary">Data <?= $title ?></h6>
-            <a href="<?= base_url('admin/kategori/create') ?>" class="btn btn-success btn-sm float-right">+ Tambah</a>
+            <!--button trigger-->
+            <a href="<?= base_url('admin/kategori/create') ?>" class="btn btn-primary btn-icon-split btn-sm float-right">
+                <span class="icon text-white">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Tambah</span>
+            </a>
+            <!--end button trigger-->
+            
         </div>
         <div class="card-body">
             <div class="table-responsive">
