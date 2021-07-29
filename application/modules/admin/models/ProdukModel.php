@@ -1,22 +1,22 @@
 <?php
-class KategoriModel extends CI_Model
+class ProdukModel extends CI_Model
 {
-    protected $table='kategori';
+    protected $table='produk';
 
-    public function getAll()
+    public function getAllkategori()
     {
         return $this->db->get($this->table)->result_array();
     }
-    public function getByID($id)
+    public function getKategoriByid($id)
     {
         return $this->db->get_where($this->table, ['id' => $id])->row();
     }
-    public function save($data)
+    public function saveKategori($data)
     {
         $this->db->insert($this->table, $data);
         return true;
     }
-    public function update($data,$id)
+    public function updateSave($data,$id)
     {
         return $this->db->update($this->table, $data, array('id' => $id));
     }

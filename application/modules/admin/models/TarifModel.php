@@ -1,7 +1,7 @@
 <?php
-class KategoriModel extends CI_Model
+class TarifModel extends CI_Model
 {
-    protected $table='kategori';
+    protected $table = 'tarif';
 
     public function getAll()
     {
@@ -16,7 +16,7 @@ class KategoriModel extends CI_Model
         $this->db->insert($this->table, $data);
         return true;
     }
-    public function update($data,$id)
+    public function update($data, $id)
     {
         return $this->db->update($this->table, $data, array('id' => $id));
     }

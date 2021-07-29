@@ -11,7 +11,7 @@ class Kategori extends MX_Controller
     {
         $data['tanggal'] = date('d-m-Y');
         $data['title'] = "Kategori";
-        $data['kategori'] = $this->mod->getAllkategori();
+        $data['kategori'] = $this->mod->getAll();
         templateAdmin('admin/kategori/index', $data);
     }
     public function create()
@@ -24,13 +24,13 @@ class Kategori extends MX_Controller
         $post = [
             'nama'      => $this->input->post('nama', true),
         ];
-        $this->mod->saveKategori($post);
+        $this->mod->save($post);
         redirect('admin/kategori/index');
     }
     public function update($id)
     {
         $data['title'] = "Update Data Kategori";
-        $data['kategori'] = $this->mod->getKategoriById($id);
+        $data['kategori'] = $this->mod->getById($id);
         templateAdmin('admin/kategori/update', $data);
     }
     public function update_save()
@@ -38,7 +38,7 @@ class Kategori extends MX_Controller
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $id = $this->input->post('id');
         $data['nama'] = $this->input->post('nama');
-        $this->mod->updateSave($data, $id);
+        $this->mod->update($data, $id);
         redirect('admin/kategori/index');
     }
     public function delete($id)
