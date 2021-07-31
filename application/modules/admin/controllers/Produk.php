@@ -23,50 +23,41 @@ class Produk extends MX_Controller
     }
     public function store()
     {
-        $post = [
-            'nama'      => $this->input->post('nama', true),
-            'id_kategori'      => $this->input->post('id_kategori', true),
-            'harga'      => $this->input->post('harga', true),
-            'gambar'      => $this->input->post('gambar', true),
-        ];
-        print("<pre>" . print_r($post, true) . "</pre>");
-
-
-        $config['upload_path'] = './assets/backend/img/gambar_produk';
-        $config['allowed_types']        = 'gif|jpg|png';
+        $config['upload_path']          = './assets/gambar_produk/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $config['max_size']             = 100;
         $config['max_width']            = 1024;
         $config['max_height']           = 768;
-        $config['encrypt_name']            = TRUE;
         $this->load->library('upload', $config);
-        
         if (!$this->upload->do_upload('gambar')) {
             $error = array('error' => $this->upload->display_errors());
-            echo "errod if 1";
+            redirect('admin/produk/create', $error);
         } else {
-
-            $this->mod->save($post);
-            echo "error 2";
+            $file = $this->upload->data();
+            $file_names = $file['raw_name'] . $file['file_ext'];
+            $data = array('gambar' => $this->upload->data());
+            $data['nama_produk'] = $this->input->post('nama_produk');
+            $data['id_kategori'] = $this->input->post('id_kategori');
+            $data['gambar'] = $file_names;
+            $data['harga'] = $this->input->post('harga');
+            $this->mod->save($data);
+            redirect('admin/produk/index');
         }
-
-        //$this->mod->save($post);
-        //redirect('admin/produk/index');
     }
     public function update($id)
     {
         $data['title'] = "Update Data produk";
         $data['produk'] = $this->mod->getById($id);
-        //print("<pre>".print_r($post,true)."</pre>");
+        $data['kategori'] = $this->mod2->getAll();
+        //print("<pre>".print_r($data,true)."</pre>");
         templateAdmin('admin/produk/update', $data);
     }
     public function update_save()
     {
         $id = $this->input->post('id');
-        echo $id;
-        $data['nama'] = $this->input->post('nama');
+        $data['nama_produk'] = $this->input->post('nama_produk');
         $data['id_kategori'] = $this->input->post('id_kategori');
         $data['harga'] = $this->input->post('harga');
-        $data['status_nama'] = $this->input->post('status_nama');
         //print("<pre>".print_r($data,true)."</pre>");
         $this->mod->update($data, $id);
         redirect('admin/produk/index');

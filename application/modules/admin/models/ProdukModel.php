@@ -3,16 +3,16 @@ class ProdukModel extends CI_Model
 {
     protected $table = 'produk';
     
-
     public function getAll()
     {
         return $this->db->get($this->table)->result_array();
     }
     public function getAllJoin()
     {
-        $this->db->select('*')
+        $this->db
+            ->select('produk.id,produk.nama_produk,produk.harga,produk.gambar,produk.id_kategori,kategori.nama')
             ->from($this->table)
-            ->join('kategori', 'produk.id_kategori = kategori.id', 'LEFT'); //kostumisari query//
+            ->join('kategori', 'produk.id_kategori = kategori.id', 'LEFT');
         $query = $this->db->get();
         return $query->result_array();
     }

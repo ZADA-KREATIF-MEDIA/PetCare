@@ -5,54 +5,46 @@
         </div>
         <div class="card-body">
             <div class="col-md-6">
-                <form action="<?= base_url('admin/tarif/update_save') ?>" method="POST">
-                    <input type="hidden" name="id" id="id" value="<?= $tarif->id; ?>" />
+                <form action="<?= base_url('admin/produk/update_save') ?>" method="POST">
+                    <input type="hidden" name="id" id="id" value="<?= $produk->id; ?>" />
                     <div class="form-group">
-                        <label><strong>Jarak Minimal : </strong></label>
-                        <input type="number" class="form-control" name="jarak_minimal" value="<?= $tarif->jarak_minimal ?>" step="any" placeholder="Jarak Pengantaran Minimal ..." required>
+                        <label><strong>Nama Produk : </strong></label>
+                        <input type="text" value="<?= $produk->nama_produk ?>" class="form-control" name="nama_produk" placeholder="Nama Produk ...." required>
                     </div>
                     <div class="form-group">
-                        <label><strong>Tarif Jarak Minimal : </strong></label>
-                        <input type="number" class="form-control" name="harga_jarak_minimal" value="<?= $tarif->harga_jarak_minimal ?>" placeholder="Tarif Jarak Pengantaran Minimal ..." required>
+                        <label><strong>Kategori Produk : </strong></label>
+                        <select class="form-control" name="id_kategori">
+                            <option>-- Pilih Kategori Produk --</option>
+                            <?php foreach ($kategori as $data) { ?>
+                                <option value="<?= $data['id'] ?>" <?php if ($data['id'] == $produk->id_kategori) echo 'selected="selected"'; ?>> <?= $data['nama'] ?></option>
+                            <?php  } ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label><strong>Harga : </strong></label>
-                        <input type="number" class="form-control" name="harga" value="<?= $tarif->harga ?>" placeholder="Tarif Pengiriman ..." required>
+                        <input type="number" value="<?= $produk->harga ?>" class="form-control" name="harga" placeholder="Harga Produk ..." required>
                     </div>
                     <div class="form-group">
-                        <label><strong>Status tarif: </strong></label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status_jarak_minimal" value="aktif" <?php if ($tarif->status_jarak_minimal == 'aktif') echo 'checked' ?>>
-                            <label class="form-check-label">
-                                Aktif
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status_jarak_minimal" value="tidak" <?php if ($tarif->status_jarak_minimal == 'tidak') echo 'checked' ?>>
-                            <label class="form-check-label">
-                                Tidak
-                            </label>
-                        </div>
-
-
+                        <label><strong>Foto Produk : </strong></label>
+                        <img src="/assets/gambar_produk/<?= $produk->gambar ?>" width="100px">
+                        <input type="file" value="<?= $produk->nama_produk ?>" class="form-control-file" name="gambar">
                     </div>
-                    <!-- button trigger -->
-                    <button type="submit" class="btn btn-warning btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-save"></i>
-                        </span>
-                        <span class="text">Update</span>
-                    </button>
-                    <button onclick="window.history.go(-1); return false;" class="btn btn-dark btn-icon-split">
-                        <span class="icon text-white-50">
-                            X
-                        </span>
-                        <span class="text">Kembali</span>
-                    </button>
-
-                    <!-- end button trigger -->
-                </form>
             </div>
+            <!-- button trigger -->
+            <button type="submit" class="btn btn-warning btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-save"></i>
+                </span>
+                <span class="text">Update</span>
+            </button>
+            <button onclick="window.history.go(-1); return false;" class="btn btn-dark btn-icon-split">
+                <span class="icon text-white-50">
+                    X
+                </span>
+                <span class="text">Kembali</span>
+            </button>
+            <!-- end button trigger -->
+            </form>
         </div>
     </div>
 </div>

@@ -40,8 +40,10 @@
                         foreach ($produk as $data) :
                         ?>
                             <tr>
-                                <td><?= $nomor++; ?></td>
-                                <td><?= $data['gambar'] ?></td>
+                                <td><?php echo $nomor++; ?></td>
+                                <td>
+                                    <img src="/assets/gambar_produk/<?= $data['gambar'] ?>" width="100px">
+                                </td>
                                 <td><?= $data['nama_produk'] ?></td>
                                 <td><?= $data['nama'] ?></td>
                                 <td>Rp. <?= number_format($data['harga']); ?></td>
