@@ -11,13 +11,10 @@ class Home extends MX_Controller
     
     public function index()
     {
-        $data['title'] = "Home";
-        //$data['iklan'] = $this->mod->m_get_iklan();
-        // print('<pre>');print_r($data);exit();
-        $this->load->view('templates/frontend/depan/header',$data);
-        $this->load->view('templates/frontend/depan/menu');
-        $this->load->view('index',$data);
-        $this->load->view('templates/frontend/depan/footer');
+        $data = [
+            'content' => 'index'
+        ];
+        $this->load->view('templates/frontend/index',$data);
     }
     
     public function show_login()
