@@ -12,28 +12,28 @@ class Home extends MX_Controller
     public function index()
     {
         $data = [
-            'content' => 'index'
+            'content'   => 'index',
+            'title'     => 'Home'
         ];
         $this->load->view('templates/frontend/index',$data);
     }
     
     public function show_login()
     {
-
-        // $data['title'] = 'Home';
-        // $data['kategori_pekerjaan'] = $this->home->getAllKategoriPekerjaan();
-        // $data['perusahaan'] = $this->home->getAllPerusahaan();
-        // $data['jobOpening'] = $this->home->getAllJobOpening();
-        $this->load->view('templates/frontend/login/header');
-        $this->load->view('login');
-        $this->load->view('templates/frontend/login/footer');
+        $data = [
+            'content'   => 'login',
+            'title'     => 'Login'
+        ];
+        $this->load->view('templates/frontend/index',$data);
     }
 
     public function daftar()
     {
-        $this->load->view('templates/frontend/login/header');
-        $this->load->view('daftar');
-        $this->load->view('templates/frontend/login/footer');
+        $data = [
+            'content'   => 'register',
+            'title'     => 'Register'
+        ];
+        $this->load->view('templates/frontend/index',$data);
     }
 
     public function save_daftar()
