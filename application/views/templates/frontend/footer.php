@@ -148,15 +148,13 @@
                             $('#alamat').val(results[0].formatted_address);
                             $('#latitude').val(marker.getPosition().lat());
                             $('#longitude').val(marker.getPosition().lng());
-                            // infowindow.setContent(results[0].formatted_address);
-                            // infowindow.open(map, marker);
                         }
                     }
                 });
                 taruhMarker(this, event.latLng);
             });
             if ($('#latitude').val() == "") {
-                  geocoder.geocode( { 'latLng': koordinat}, function(results, status) {
+                geocoder.geocode( { 'latLng': koordinat}, function(results, status) {
                                     if (status == google.maps.GeocoderStatus.OK) {
                     let latitude = results[0].geometry.location.lat();
                     let longitude = results[0].geometry.location.lng();

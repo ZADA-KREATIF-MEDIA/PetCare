@@ -11,51 +11,15 @@ class Order extends MX_Controller
 
     public function index()
     {
-        is_logged_in_user();
-        $id_customer            = $this->session->userdata('cust_id_customer');
-        $_SESSION['lokasi_sekarang'] = 0;
-        $data['title']          = 'Order';
-        $data['customer']       = $this->mod->m_get_data_customer($id_customer);
-        $data['tmp_order']      = $this->mod->m_get_data_order_customer_tmp($id_customer);
-        $data['sub_total']      = $this->mod->m_count_subtotal($id_customer);
+        // is_logged_in_user();
+        $data = [
+            'title'     => 'Order',
+            'content'   => 'order/index'
+            // 'produk'    => $this->mod->
+        ];
         
-        $jumlah = $this->db->count_all('order_customer')+1;
-        $level  = $data['customer']['level'];
-        $dt     = explode(" ",$data['customer']['tanggal_bergabung']);
-        $date   = explode("-",$dt[0]);
-        $thn    = substr($date[0],2);
-        $bln    = $date[1];
-
-        if($data['customer']['level']=="customer"){
-            $level_user = "CC";
-        }else if($data['customer']['level'] =="member"){
-            $level_user = "MM";
-        }else{
-            $level_user = "B2B";
-        }
-        if($jumlah >= 1){
-            $running_number = '000000'.$jumlah; 
-        }else if($jumlah >9 && $jumlah< 100){
-            $running_number = '00000'.$jumlah;
-        }else if($jumlah >100 && $jumlah< 1000){
-            $running_number = '0000'.$jumlah;
-        }else if($jumlah >1000 && $jumlah< 10000){
-            $running_number = '000'.$jumlah;
-        }else if($jumlah >10000 && $jumlah< 100000){
-            $running_number = '00'.$jumlah;
-        }else if($jumlah >100000 && $jumlah< 1000000){
-            $running_number = '0'.$jumlah;
-        }else{
-            $running_number = $jumlah;
-        }
         
-        $data['id_orderan'] = $level_user.$thn.$bln.$running_number;
-    
-        // print('<pre>');print_r($data);exit();
-        $this->load->view('templates/frontend/depan/header',$data);
-        $this->load->view('templates/frontend/depan/menu');
-        $this->load->view('index', $data);
-        $this->load->view('templates/frontend/depan/footer');
+        $this->load->view('templates/frontend/index',$data);
     }
 
     public function show_alamat_asal()

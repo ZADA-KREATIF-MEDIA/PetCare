@@ -1,21 +1,13 @@
 <?php
 
-class HomeModel extends CI_Model {
+class HomeModel extends CI_Model
+{
 
-    public function m_get_iklan()
-    {
-        $this->db->select()
-            ->from('iklan')
-            ->where("status = 'aktif'");
-        $query = $this->db->get_compiled_select();
-        $data  = $this->db->query($query)->result_array();
-        return $data;
-    }
+    protected $table = 'user';
 
-    public function m_save_daftar($post)
+    public function saveUser($data)
     {
-        $this->db->insert('customer', $post);
+        $this->db->insert($this->table, $data);
         return true;
     }
-    
 }
