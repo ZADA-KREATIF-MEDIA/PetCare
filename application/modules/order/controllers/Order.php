@@ -14,11 +14,9 @@ class Order extends MX_Controller
         // is_logged_in_user();
         $data = [
             'title'     => 'Order',
-            'content'   => 'order/index'
-            // 'produk'    => $this->mod->
+            'content'   => 'order/index',
+            'produk'    =>  $this->mod->getAllProduk()
         ];
-        
-        
         $this->load->view('templates/frontend/index',$data);
     }
 

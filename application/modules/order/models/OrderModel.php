@@ -2,6 +2,16 @@
 
 class OrderModel extends CI_Model {
 
+    public function getAllProduk()
+    {
+        $this->db->select('a.id,a.nama_produk,a.harga,a.gambar,a.stock, b.nama')
+                ->from('produk as a')
+                ->join('kategori as b','a.id_kategori = b.id','left')
+                ->where('a.stock > 0');
+        $query = $this->db->get_compiled_select();
+        $data  = $this->db->query($query)->result_array();
+        return $data;
+    }
 
     private function _uploadImage($nama_rider,$id_order,$status_order)
     {

@@ -88,6 +88,14 @@
     <?php endswitch; ?>
 <script>
     <?php
+    switch($this->uri->segment(1)):
+        case "order":?>
+            beli = () => {
+                $('#beliModal').modal('show');
+            }
+        <?php break;?>
+    <?php endswitch;?>
+    <?php
     switch($this->uri->segment(2)) :
         case "daftar":?>
             var map;
