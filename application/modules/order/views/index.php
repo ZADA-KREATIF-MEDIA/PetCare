@@ -22,7 +22,7 @@
                                 <h6>Stock <span class="badge badge-info"><?= $p['stock'] ?></span></h6>
                                 <span class="card-text">Rp. <?= number_format($p['harga'],0,',','.') ?></span> |
                                 <span class="card-text"><?= $p['nama'] ?></span>
-                                <button type="button" onclick="beli()" class=" mt-2 btn btn-sm btn-block btn-success text-uppercase">beli</button>
+                                <button type="button" onclick="beli(<?= $p['id'] ?>)" class=" mt-2 btn btn-sm btn-block btn-success text-uppercase">beli</button>
                             </div>
                         </div>
                     </div>
@@ -35,18 +35,41 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembelian</h5>
+                <h5 class="modal-title" id="judulBarang">Pembelian</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <?= form_open('order/store_keranjang') ?>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Masukkan Jumlah Pembelian</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="jumlah_pembelian">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </span>
+                            <input type="text" name="jumlah_pembelian" class="form-control input-number text-center" id="inputPembelian" min="1" value="1" max="100">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="jumlah_pembelian">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="catatan">Catatn</label>
+                        <textarea name="catatan" id="catatan" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="id_user" id="id_user" value="<?= $this->session->userdata('user_id') ?>">
+                    <input type="hidden" name="id_produk" id="id_produk">
+                    <input type="hidden" name="harga" id="harga">
+                    <button type="submit" class="btn btn-success text-uppercase">beli</button>
+                </div>
+            <?= form_close()?>
         </div>
     </div>
 </div>

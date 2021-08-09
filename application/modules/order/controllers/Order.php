@@ -20,6 +20,28 @@ class Order extends MX_Controller
         $this->load->view('templates/frontend/index',$data);
     }
 
+    public function show()
+    {
+        $data = $this->mod->getBarangById($this->input->post('id'));
+        echo json_encode($data);
+    }
+
+    public function store_keranjang()
+    {
+        $post = [
+            'id_user'   => $this->input->post('id_user'),
+            'status'    => 'keranjang',
+            'id_produk' => $this->input->post('id_produk'),
+            'harga'     => $this->input->post('harga'),
+            'catatan'   => $this->input->post('catatan'),
+            'jumlah'    => $this->input->post('jumlah_pembelian')
+        ];
+        // print('<pre>');print_r($post);exit();
+        $this->mod->storeKeranjang($post);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil menambahkan ke keranjang belanja</div>');
+        redirect('order');
+    }
+
     public function show_alamat_asal()
     {
         is_logged_in_user();

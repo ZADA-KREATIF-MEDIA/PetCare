@@ -62,7 +62,7 @@ class Home extends MX_Controller
             if(password_verify($password, $user['password'])) {
                 // echo "here";exit();
                 $data = [
-                    'user_id_customer'   => $user['id_customer'],
+                    'user_id'            => $user['id'],
                     'user_nama'          => $user['nama'],
                     'user_no_telpn'      => $user['no_telpn'],
                 ];

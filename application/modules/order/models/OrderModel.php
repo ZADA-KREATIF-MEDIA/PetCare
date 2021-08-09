@@ -1,7 +1,8 @@
 <?php
 
 class OrderModel extends CI_Model {
-
+    protected $table    = 'transaksi';
+    protected $table2   = 'detail_transaksi'; 
     public function getAllProduk()
     {
         $this->db->select('a.id,a.nama_produk,a.harga,a.gambar,a.stock, b.nama')
@@ -11,6 +12,63 @@ class OrderModel extends CI_Model {
         $query = $this->db->get_compiled_select();
         $data  = $this->db->query($query)->result_array();
         return $data;
+    }
+
+    public function getBarangById($id)
+    {
+        $this->db->select('a.id,a.nama_produk,a.harga,a.gambar,a.stock, b.nama')
+                ->from('produk as a')
+                ->join('kategori as b','a.id_kategori = b.id','left')
+                ->where('a.id',$id);
+        $query = $this->db->get_compiled_select();
+        $data  = $this->db->query($query)->row_array();
+        return $data;
+    }
+
+    public function storeKeranjang($post)
+    {
+        $this->db->select('a.stock')
+                ->from('produk as a')
+                ->where('a.id',$post['id_produk']);
+        $query = $this->db->get_compiled_select();
+        $data_produk  = $this->db->query($query)->row_array();
+
+        $this->db->select('a.id')
+                ->from('transaksi as a')
+                ->where('a.id_user',$post['id_user'])
+                ->where('a.status','keranjang');
+        $query = $this->db->get_compiled_select();
+        $data_keranjang  = $this->db->query($query)->row_array();
+       
+        $stock_update = $data_produk['stock'] - $post['jumlah'];
+        if($data_keranjang != ""){
+            $insert_id = $data_keranjang['id'];
+        } else {
+            $transaksi = [
+                'id_user'   => $post['id_user'],
+                'status'    => 'keranjang'
+            ];
+            $this->db->insert('transaksi', $transaksi);
+            $insert_id = $this->db->insert_id();
+        }
+        $detail_transaksi = [
+            'id_transaksi'  => $insert_id,
+            'id_produk'     => $post['id_produk'],
+            'harga'         => $post['harga'],
+            'jumlah'        => $post['jumlah'],
+            'catatan'       => $post['catatan']
+        ];
+        $update = [
+            'id'        => $post['id_produk'],
+            'stock'     => $stock_update 
+        ];
+        $this->db->insert('detail_transaksi',$detail_transaksi);
+        $this->db->select()
+            ->from('produk')
+            ->where("id" , $post['id_produk']);
+        $query = $this->db->set($update)->get_compiled_update();
+        $this->db->query($query);
+        return true;
     }
 
     private function _uploadImage($nama_rider,$id_order,$status_order)
