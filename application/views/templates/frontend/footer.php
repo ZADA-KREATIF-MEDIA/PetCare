@@ -87,9 +87,13 @@
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC-qlg8MsyURHrlu-NcS1wbMF278nxAnJY&sensor=false"></script> 
     <?php endswitch; ?>
 <script>
+    <?php if($this->uri->segment(1) == ""):?>
+        $('#header').removeClass("header-inner-pages");
+    <?php endif;?>
     <?php
     switch($this->uri->segment(1)):
         case "order":?>
+            $('#order').addClass('active');
             $('.btn-number').click(function(e){
                 e.preventDefault();
                 fieldName = $(this).attr('data-field');

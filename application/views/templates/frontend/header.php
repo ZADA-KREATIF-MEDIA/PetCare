@@ -1,5 +1,5 @@
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top ">
+<header id="header" class="fixed-top header-inner-page header-inner-pages">
     <div class="container d-flex align-items-center">
 
         <h1 class="logo mr-auto"><a href="index.html">Arsha</a></h1>
@@ -8,16 +8,18 @@
 
         <nav class="nav-menu d-none d-lg-block">
             <ul>
-                <li class="active"><a href="index.html">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#contact">Contact</a></li>
+                    <li id="halaman"><a href="<?= base_url('/')?>">Home</a></li>
+                <?php if($this->session->userdata('user_id')):?>
+                    <li id="order"><a href="<?= base_url('/order') ?>">Produk</a></li>
+                    <li id="produk"><a href="<?= base_url('/order/checkout') ?>">Checkout</a></li>
+                    <li id="transaksi"><a href="#portfolio">Transaksi</a></li>
+                <?php endif; ?>    
             </ul>
         </nav><!-- .nav-menu -->
-
-        <a href="<?= base_url('home/show_login') ?>" class="get-started-btn scrollto">Login</a>
-
+        <?php if($this->session->userdata('user_id')):?>
+                <a href="<?= base_url('home/logout') ?>" class="get-started-btn scrollto">Logout</a>
+            <?php else:?>
+                <a href="<?= base_url('home/show_login') ?>" class="get-started-btn scrollto">Login</a>
+        <?php endif;?>
     </div>
 </header><!-- End Header -->

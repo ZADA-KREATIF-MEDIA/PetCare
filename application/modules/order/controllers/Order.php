@@ -42,6 +42,33 @@ class Order extends MX_Controller
         redirect('order');
     }
 
+    public function checkout()
+    {
+        $data = [
+            'title'     => 'Checkout',
+            'content'   => 'order/checkout',
+            'produk'    => $this->mod->getAllKeranjang()
+        ];
+        // print('<pre>');print_r($data['produk']);exit();
+        $this->load->view('templates/frontend/index',$data);
+    }
+
+    public function hapus()
+    {
+        $id = $this->uri->segment(3);
+        $detail = $this->mod->getDetailTransaksiById($id);
+        $barang = $this->mod->getBarangById($detail['id_produk']);
+        $stock = $barang['stock'] + $detail['jumlah'];
+        $post = [
+            'id'            => $id,
+            'id_produk'     => $barang['id'],
+            'stock'         => $stock
+        ];
+        $this->mod->hapusItemKeranjang($post);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil menghapus barang</div>');
+        redirect('order/checkout');
+    }
+
     public function show_alamat_asal()
     {
         is_logged_in_user();
