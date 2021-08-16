@@ -36,7 +36,6 @@ class Order extends MX_Controller
             'catatan'   => $this->input->post('catatan'),
             'jumlah'    => $this->input->post('jumlah_pembelian')
         ];
-        // print('<pre>');print_r($post);exit();
         $this->mod->storeKeranjang($post);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil menambahkan ke keranjang belanja</div>');
         redirect('order');
@@ -49,7 +48,6 @@ class Order extends MX_Controller
             'content'   => 'order/checkout',
             'produk'    => $this->mod->getAllKeranjang()
         ];
-        // print('<pre>');print_r($data['produk']);exit();
         $this->load->view('templates/frontend/index',$data);
     }
 
@@ -67,6 +65,24 @@ class Order extends MX_Controller
         $this->mod->hapusItemKeranjang($post);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil menghapus barang</div>');
         redirect('order/checkout');
+    }
+
+    public function alamat_pengambilan()
+    {
+        $data = [
+            'title'     => 'Checkout',
+            'content'   => 'order/alamat_pengambilan'
+        ];
+        $this->load->view('templates/frontend/index',$data);
+    }
+
+    public function alamat_pengantaran()
+    {
+        $data = [
+            'title'     => 'Checkout',
+            'content'   => 'order/alamat_pengantaran'
+        ];
+        $this->load->view('templates/frontend/index',$data);
     }
 
     public function show_alamat_asal()

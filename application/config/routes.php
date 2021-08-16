@@ -51,6 +51,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $route['default_controller'] = 'home';
 $route['checkout'] = 'order/checkout';
+$route['alamat_pengambilan'] = 'order/alamat_pengambilan';
+$route['alamat_pengantaran'] = 'order/alamat_pengantaran';
 $route['admin']="admin/dashboard";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

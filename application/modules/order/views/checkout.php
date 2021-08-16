@@ -15,12 +15,12 @@
                         <div class="col-sm-12 col-md-6 mb-3">
                             <h5 class="card-title">Alamat Pengambilan</h5>
                             <p class="card-text"><?= $produk['alamat_pengambilan']?></p>
-                            <a href="#" class="btn btn-primary">Edit</a>
+                            <a href="<?= base_url('alamat_pengambilan')?>" class="btn btn-primary">Edit</a>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <h5 class="card-title">Alamat Pengantaran</h5>
                             <p class="card-text"><?= $produk['alamat_pengantaran'] ?></p>
-                            <a href="#" class="btn btn-primary">Edit</a>
+                            <a href="<?= base_url('alamat_pengantaran') ?>" class="btn btn-primary">Edit</a>
                         </div>
                     </div>
                 </div>
