@@ -29,6 +29,7 @@ class OrderModel extends CI_Model {
                 ->where('id_transaksi',$transaksi['id']);
         $query = $this->db->get_compiled_select();
         $produk  = $this->db->query($query)->result_array();
+        $hasil['id_transaksi']          = $transaksi['id'];
         $hasil['koordinat_pengambilan'] = $transaksi['koordinat_pengambilan'];
         $hasil['alamat_pengambilan']    = $transaksi['alamat_pengambilan'];
         $hasil['koordinat_pengantaran'] = $transaksi['koordinat_pengantaran'];
@@ -55,7 +56,7 @@ class OrderModel extends CI_Model {
         $data  = $this->db->query($query)->row_array();
         return $data;
     }
-
+    
     public function getDetailTransaksiById($id)
     {
         $this->db->select()
@@ -122,6 +123,38 @@ class OrderModel extends CI_Model {
         return true;
     }
 
+    public function updateKeranjang($post)
+    {
+        $this->db->select('a.stock')
+                ->from('produk as a')
+                ->where('a.id',$post['id_produk']);
+        $query = $this->db->get_compiled_select();
+        $data_produk  = $this->db->query($query)->row_array();
+        $stock_update = ($data_produk['stock'] + $post['jumlah_sebelumnya']) - $post['jumlah'];
+        $update_dt = [
+            'id'        => $post['id'],
+            'harga'     => $post['harga'],
+            'catatan'   => $post['catatan'],
+            'jumlah'    => $post['jumlah']
+        ];
+        $update_stock = [
+            'id'        => $post['id_produk'],
+            'stock'     => $stock_update 
+        ];
+        $this->db->select()
+            ->from('detail_transaksi')
+            ->where("id" , $post['id']);
+        $query1 = $this->db->set($update_dt)->get_compiled_update();
+        $this->db->query($query1);
+
+        $this->db->select()
+            ->from('produk')
+            ->where("id" , $post['id_produk']);
+        $query2 = $this->db->set($update_stock)->get_compiled_update();
+        $this->db->query($query2);
+        return true;
+    }
+
     public function hapusItemKeranjang($post)
     {
         $update = [
@@ -138,9 +171,19 @@ class OrderModel extends CI_Model {
             ->where("id", $post['id']);
         $query = $this->db->get_compiled_delete();
         $this->db->query($query);
-        
+        return true;
     }
 
+    public function updateAlamat($post)
+    {
+        $this->db->select()
+            ->from('transaksi')
+            ->where("id", $post['id']);
+        $query = $this->db->set($post)->get_compiled_update();
+        $this->db->query($query);
+        return true;	
+    }
+    /*----- old ------*/
     private function _uploadImage($nama_rider,$id_order,$status_order)
     {
 

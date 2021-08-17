@@ -15,19 +15,21 @@
                         <div class="col-sm-12 col-md-6 mb-3">
                             <h5 class="card-title">Alamat Pengambilan</h5>
                             <p class="card-text"><?= $produk['alamat_pengambilan']?></p>
-                            <a href="<?= base_url('alamat_pengambilan')?>" class="btn btn-primary">Edit</a>
+                            <a href="<?= base_url('alamat_pengambilan/'.$produk['id_transaksi'])?>" class="btn btn-primary">Edit</a>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <h5 class="card-title">Alamat Pengantaran</h5>
                             <p class="card-text"><?= $produk['alamat_pengantaran'] ?></p>
-                            <a href="<?= base_url('alamat_pengantaran') ?>" class="btn btn-primary">Edit</a>
+                            <a href="<?= base_url('alamat_pengantaran/'.$produk['id_transaksi']) ?>" class="btn btn-primary">Edit</a>
                         </div>
                     </div>
                 </div>
                 <div class="card">
                     <h5 class="card-header">Produk</h5>
                     <div class="card-body row">
-                        <?php foreach($produk['produk'] as $p):?>
+                        <?php
+                            $total_produk = 0;
+                            foreach($produk['produk'] as $p):?>
                             <div class="col-sm-12 col-md-6 mb-3 row">
                                 <div class="col-4">
                                     <img src="<?= base_url('assets/gambar_produk/'.$p['gambar']) ?>" class="img-thumbnail" alt="gambar-produk">
@@ -35,19 +37,33 @@
                                 <div class="col-8">
                                     <h5 class="card-title"><?= $p['nama_produk']?></h5>
                                     <p class="card-text"><?= $p['jumlah'].' x '.number_format($p['harga'],0,',','.')?>&nbsp;=&nbsp;<?= number_format($p['harga']*$p['jumlah'],0,',','.')?></p>
-                                    <a href="#" class="btn btn-primary">Edit</a>
+                                    <button type="button" class="btn btn-primary" onclick="updateKeranjang(<?= $p['id']?>)">Edit</button>
                                     <a href="<?= base_url('/order/hapus/'.$p['id']) ?>" class="btn btn-danger">Hapus</a>
                                 </div>
                             </div>    
-                        <?php endforeach;?>
+                        <?php
+                            $total_produk += ($p['jumlah']*$p['harga']);
+                            endforeach;?>
                     </div>
                 </div>
-               
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item ">
+                                Subtotal Produk
+                                <div class="float-right">Rp. <?= number_format($total_produk,0,',','.'); ?></div>
+                        </li>
+                        <li class="list-group-item">
+                            Biaya Pengiriman
+                            <div class="float-right" id="biayaOngkir"></div>
+                        </li>
+                        <li class="list-group-item">Total</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 </main>
-<div class="modal fade" id="beliModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editKeranjang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -56,7 +72,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?= form_open('order/store_keranjang') ?>
+            <?= form_open('order/updateDetailKeranjang') ?>
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Masukkan Jumlah Pembelian</label>
@@ -75,14 +91,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="catatan">Catatn</label>
+                        <label for="catatan">Catatan</label>
                         <textarea name="catatan" id="catatan" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" name="id_user" id="id_user" value="<?= $this->session->userdata('user_id') ?>">
+                    <input type="hidden" name="id" id="id">
                     <input type="hidden" name="id_produk" id="id_produk">
                     <input type="hidden" name="harga" id="harga">
+                    <input type="hidden" name="jumlah_sebelumnya" id="jumlahSebelumnya">
                     <button type="submit" class="btn btn-success text-uppercase">beli</button>
                 </div>
             <?= form_close()?>

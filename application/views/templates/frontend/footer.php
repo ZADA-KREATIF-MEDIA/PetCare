@@ -141,7 +141,7 @@
                 geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[0]) {
-                            $('#streetAddress').text(results[0].address_components[1]['long_name']);
+    
                             $('#detailAlamat').text(results[0].formatted_address);
                             $('#alamat').val(results[0].formatted_address);
                             $('#latitude').val(marker.getPosition().lat());
@@ -156,7 +156,6 @@
                                     if (status == google.maps.GeocoderStatus.OK) {
                     let latitude = results[0].geometry.location.lat();
                     let longitude = results[0].geometry.location.lng();
-                    $('#streetAddress').text(results[0].address_components[1]['long_name']);
                     $('#detailAlamat').text(results[0].formatted_address);
                     $('#alamat').val(results[0].formatted_address);
                     $('#latitude').val(latitude);
@@ -194,7 +193,6 @@
                 if (status == google.maps.GeocoderStatus.OK) {
                     var latitude = results[0].geometry.location.lat();
                     var longitude = results[0].geometry.location.lng();
-                    $('#streetAddress').text(results[0].address_components[1]['long_name']);
                     $('#detailAlamat').text(results[0].formatted_address);
                     $('#alamat').val(results[0].formatted_address);
                     $('#latitude').val(latitude);
@@ -219,7 +217,7 @@
                     geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             if (results[0]) {
-                                $('#streetAddress').text(results[0].address_components[1]['long_name']);
+        
                                 $('#detailAlamat').text(results[0].formatted_address);
                                 $('#alamat').val(results[0].formatted_address);
                                 $('#latitude').val(marker.getPosition().lat());
@@ -244,7 +242,7 @@
                     geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             if (results[0]) {
-                                $('#streetAddress').text(results[0].address_components[1]['long_name']);
+        
                                 $('#detailAlamat').text(results[0].formatted_address);
                                 $('#alamat').val(results[0].formatted_address);
                                 $('#latitude').val(marker.getPosition().lat());
@@ -354,148 +352,42 @@
     switch($this->uri->segment(2)) :
         case "daftar":?>
             var map;
-        var marker
-        var geocoder = new google.maps.Geocoder();
-        <?php
-        if (isset($_SESSION['koordinat']) && $_SESSION['koordinat']!= "") { ?>
-            var koordinat = new google.maps.LatLng(<?php echo $_SESSION['koordinat'];?>);
-        <?php }else{ ?>
-            var koordinat = new google.maps.LatLng(-7.783224820470059,110.37240414007569);
-        <?php } ?>
-        var geocoder = new google.maps.Geocoder();
-        var infowindow = new google.maps.InfoWindow();
+            var marker
+            var geocoder = new google.maps.Geocoder();
+            <?php
+            if (isset($_SESSION['koordinat']) && $_SESSION['koordinat']!= "") { ?>
+                var koordinat = new google.maps.LatLng(<?php echo $_SESSION['koordinat'];?>);
+            <?php }else{ ?>
+                var koordinat = new google.maps.LatLng(-7.783224820470059,110.37240414007569);
+            <?php } ?>
+            var geocoder = new google.maps.Geocoder();
+            var infowindow = new google.maps.InfoWindow();
 
         
-        function taruhMarker(peta, posisiTitik){
-            
-            if( marker ){
-              // pindahkan marker
-                marker.setPosition(posisiTitik);
-            } else {
-              // buat marker baru
-              marker = new google.maps.Marker({
-                position: posisiTitik,
-                map: peta,
-                draggable: true 
-              });
-            }
-            document.getElementById("latitude").value = posisiTitik.lat();
-            document.getElementById("longitude").value = posisiTitik.lng();
-        }
-        
-        function disablePOIInfoWindow(){
-            var fnSet = google.maps.InfoWindow.prototype.set;
-            google.maps.InfoWindow.prototype.set = function () {
-            };
-        }
-
-        function initialize() {
-            var propertiPeta = {
-                center:koordinat,
-                zoom:18,
-                mapTypeId:google.maps.MapTypeId.ROADMAP,
-                visible:true,
-                gestureHandling: "greedy",
-                disableDefaultUI: true
-            };
-            var peta = new google.maps.Map(document.getElementById("map"), propertiPeta);
-            disablePOIInfoWindow();  
-            
-            // even listner ketika peta diklik
-            google.maps.event.addListener(peta, 'click', function(event) {
-                geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            $('#streetAddress').text(results[0].address_components[1]['long_name']);
-                            $('#detailAlamat').text(results[0].formatted_address);
-                            $('#alamat').val(results[0].formatted_address);
-                            $('#latitude').val(marker.getPosition().lat());
-                            $('#longitude').val(marker.getPosition().lng());
-                        }
-                    }
-                });
-                taruhMarker(this, event.latLng);
-            });
-            if ($('#latitude').val() == "") {
-                geocoder.geocode( { 'latLng': koordinat}, function(results, status) {
-                                    if (status == google.maps.GeocoderStatus.OK) {
-                    let latitude = results[0].geometry.location.lat();
-                    let longitude = results[0].geometry.location.lng();
-                    $('#streetAddress').text(results[0].address_components[1]['long_name']);
-                    $('#detailAlamat').text(results[0].formatted_address);
-                    $('#alamat').val(results[0].formatted_address);
-                    $('#latitude').val(latitude);
-                    $('#longitude').val(longitude);
-                } 
-            })
-            }
-            marker = new google.maps.Marker({
-                position: koordinat,
-                map: peta,
-                animation: google.maps.Animation,
-                draggable:true
-            });
-
-
-            google.maps.event.addListener(marker, 'dragend', function() {
-                geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            $('#alamat').text(results[0].address_components[1]['long_name']);
-                            $('#detailAlamat').text(results[0].formatted_address);
-                            $('#latitude').val(marker.getPosition().lat());
-                            $('#longitude').val(marker.getPosition().lng());
-                        }
-                    }
-                });
-            });
-        }
-
-        function getlatlang(){
-            let address = document.getElementById('address').value;
-            if (address != "") {
-            geocoder.geocode( { 'address': address}, function(results, status) {
-
-                if (status == google.maps.GeocoderStatus.OK) {
-                    var latitude = results[0].geometry.location.lat();
-                    var longitude = results[0].geometry.location.lng();
-                    $('#streetAddress').text(results[0].address_components[1]['long_name']);
-                    $('#detailAlamat').text(results[0].formatted_address);
-                    $('#alamat').val(results[0].formatted_address);
-                    $('#latitude').val(latitude);
-                    $('#longitude').val(longitude);
-                } 
-                var latlang = {lat: latitude, lng: longitude};
-
-                map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 18,
-                    center: latlang,
-                    disableDefaultUI: true 
-                });
-
+            function taruhMarker(peta, posisiTitik){
+                
+                if( marker ){
+                // pindahkan marker
+                    marker.setPosition(posisiTitik);
+                } else {
+                // buat marker baru
                 marker = new google.maps.Marker({
-                    map: map,
-                    position: latlang,
-                    disableDefaultUI: true,
-                    draggable: true
+                    position: posisiTitik,
+                    map: peta,
+                    draggable: true 
                 });
+                }
+                document.getElementById("latitude").value = posisiTitik.lat();
+                document.getElementById("longitude").value = posisiTitik.lng();
+            }
+        
+            function disablePOIInfoWindow(){
+                var fnSet = google.maps.InfoWindow.prototype.set;
+                google.maps.InfoWindow.prototype.set = function () {
+                };
+            }
 
-                google.maps.event.addListener(marker, 'dragend', function() {
-                    geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            if (results[0]) {
-                                $('#streetAddress').text(results[0].address_components[1]['long_name']);
-                                $('#detailAlamat').text(results[0].formatted_address);
-                                $('#alamat').val(results[0].formatted_address);
-                                $('#latitude').val(marker.getPosition().lat());
-                                $('#longitude').val(marker.getPosition().lng());
-                                // infowindow.setContent(results[0].formatted_address);
-                                // infowindow.open(map, marker);
-                            }
-                        }
-                    });
-                });
-
+            function initialize() {
                 var propertiPeta = {
                     center:koordinat,
                     zoom:18,
@@ -504,31 +396,156 @@
                     gestureHandling: "greedy",
                     disableDefaultUI: true
                 };
-
-                google.maps.event.addListener(map, 'click', function(event) {
+                var peta = new google.maps.Map(document.getElementById("map"), propertiPeta);
+                disablePOIInfoWindow();  
+                
+                // even listner ketika peta diklik
+                google.maps.event.addListener(peta, 'click', function(event) {
                     geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             if (results[0]) {
-                                $('#streetAddress').text(results[0].address_components[1]['long_name']);
+        
                                 $('#detailAlamat').text(results[0].formatted_address);
                                 $('#alamat').val(results[0].formatted_address);
                                 $('#latitude').val(marker.getPosition().lat());
                                 $('#longitude').val(marker.getPosition().lng());
-                                // infowindow.setContent(results[0].formatted_address);
-                                // infowindow.open(map, marker);
                             }
                         }
                     });
                     taruhMarker(this, event.latLng);
                 });
+                if ($('#latitude').val() == "") {
+                    geocoder.geocode( { 'latLng': koordinat}, function(results, status) {
+                                        if (status == google.maps.GeocoderStatus.OK) {
+                        let latitude = results[0].geometry.location.lat();
+                        let longitude = results[0].geometry.location.lng();
+                        $('#detailAlamat').text(results[0].formatted_address);
+                        $('#alamat').val(results[0].formatted_address);
+                        $('#latitude').val(latitude);
+                        $('#longitude').val(longitude);
+                    } 
+                })
+                }
+                marker = new google.maps.Marker({
+                    position: koordinat,
+                    map: peta,
+                    animation: google.maps.Animation,
+                    draggable:true
+                });
 
-            });
-        }
-        }
 
+                google.maps.event.addListener(marker, 'dragend', function() {
+                    geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                $('#alamat').text(results[0].address_components[1]['long_name']);
+                                $('#detailAlamat').text(results[0].formatted_address);
+                                $('#latitude').val(marker.getPosition().lat());
+                                $('#longitude').val(marker.getPosition().lng());
+                            }
+                        }
+                    });
+                });
+            }
+
+            function getlatlang(){
+                let address = document.getElementById('address').value;
+                if (address != "") {
+                    geocoder.geocode( { 'address': address}, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            var latitude = results[0].geometry.location.lat();
+                            var longitude = results[0].geometry.location.lng();
+                            $('#detailAlamat').text(results[0].formatted_address);
+                            $('#alamat').val(results[0].formatted_address);
+                            $('#latitude').val(latitude);
+                            $('#longitude').val(longitude);
+                        } 
+                        var latlang = {lat: latitude, lng: longitude};
+
+                        map = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 18,
+                            center: latlang,
+                            disableDefaultUI: true 
+                        });
+
+                        marker = new google.maps.Marker({
+                            map: map,
+                            position: latlang,
+                            disableDefaultUI: true,
+                            draggable: true
+                        });
+
+                        google.maps.event.addListener(marker, 'dragend', function() {
+                            geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    if (results[0]) {
+                
+                                        $('#detailAlamat').text(results[0].formatted_address);
+                                        $('#alamat').val(results[0].formatted_address);
+                                        $('#latitude').val(marker.getPosition().lat());
+                                        $('#longitude').val(marker.getPosition().lng());
+                                        // infowindow.setContent(results[0].formatted_address);
+                                        // infowindow.open(map, marker);
+                                    }
+                                }
+                            });
+                        });
+
+                        var propertiPeta = {
+                            center:koordinat,
+                            zoom:18,
+                            mapTypeId:google.maps.MapTypeId.ROADMAP,
+                            visible:true,
+                            gestureHandling: "greedy",
+                            disableDefaultUI: true
+                        };
+
+                        google.maps.event.addListener(map, 'click', function(event) {
+                            geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    if (results[0]) {
+                
+                                        $('#detailAlamat').text(results[0].formatted_address);
+                                        $('#alamat').val(results[0].formatted_address);
+                                        $('#latitude').val(marker.getPosition().lat());
+                                        $('#longitude').val(marker.getPosition().lng());
+                                        // infowindow.setContent(results[0].formatted_address);
+                                        // infowindow.open(map, marker);
+                                    }
+                                }
+                            });
+                            taruhMarker(this, event.latLng);
+                        });
+
+                    });
+                }
+            }
         // event jendela di-load  
-        google.maps.event.addDomListener(window, 'load', initialize);
-		<?php break;?>
+            google.maps.event.addDomListener(window, 'load', initialize);
+		<?php break;
+        case "checkout":?>
+            let koordinatPengambilan = '<?= $produk['koordinat_pengambilan'] ?>';
+            let koordinatPengantaran = '<?= $produk['koordinat_pengantaran'] ?>';
+            let koodinatPetShop     = '-7.970549,110.5886896,17';
+            const updateKeranjang = (id) => {
+                $.ajax({
+                    url     : '<?= base_url('order/showDetailKeranjang') ?>',
+                    method  : 'POST',
+                    data    : {id : id},
+                    success : function(res){
+                        let hasil = $.parseJSON(res);
+                        console.log(hasil);
+                        $('#id').val(hasil.id);
+                        $('#id_produk').val(hasil.id_produk);
+                        $('#inputPembelian').attr({"max" : hasil.stock}).val(hasil.jumlah);
+                        $('#catatan').text(hasil.catatan);
+                        $('#harga').val(hasil.harga);
+                        $('#jumlahSebelumnya').val(hasil.jumlah);
+                        $('#editKeranjang').modal('show');
+                    }
+                });
+            }
+        <?php break;?>
     <?php endswitch; ?>
 </script>
 </body>

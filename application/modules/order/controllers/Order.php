@@ -51,6 +51,35 @@ class Order extends MX_Controller
         $this->load->view('templates/frontend/index',$data);
     }
 
+    public function showDetailKeranjang()
+    {
+        $dt = $this->mod->getDetailTransaksiById($this->input->post('id'));
+        $db = $this->mod->getBarangById($dt['id_produk']);
+        $data['id']         = $dt['id'];
+        $data['id_produk']  = $db['id'];
+        $data['jumlah']     = $dt['jumlah'];
+        $data['catatan']    = $dt['catatan'];
+        $data['stock']      = $db['stock'];
+        $data['harga']      = $db['harga'];
+        echo json_encode($data);
+    }
+
+    public function updateDetailKeranjang()
+    {
+        $post = [
+            'id'                    => $this->input->post('id'),
+            'id_produk'             => $this->input->post('id_produk'),
+            'harga'                 => $this->input->post('harga'),
+            'catatan'               => $this->input->post('catatan'),
+            'jumlah'                => $this->input->post('jumlah_pembelian'),
+            'jumlah_sebelumnya'     => $this->input->post('jumlah_sebelumnya')
+        ];
+        // print('<pre>');print_r($post);exit();
+        $this->mod->updateKeranjang($post);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil update keranjang belanja</div>');
+        redirect('checkout');
+    }
+
     public function hapus()
     {
         $id = $this->uri->segment(3);
@@ -70,19 +99,45 @@ class Order extends MX_Controller
     public function alamat_pengambilan()
     {
         $data = [
-            'title'     => 'Checkout',
+            'title'     => 'Alamat Pengambilan',
             'content'   => 'order/alamat_pengambilan'
         ];
         $this->load->view('templates/frontend/index',$data);
     }
 
+    public function update_alamat_pengambilan()
+    {
+        $post = [
+            'id'                    => $this->input->post('id_transaksi'),
+            'alamat_pengambilan'    => $this->input->post('alamat_pengambilan'),
+            'koordinat_pengambilan' => $this->input->post('longitude').",".$this->input->post('latitude')
+        ];
+        // print('<pre>');print_r($post);exit();
+        $this->mod->updateAlamat($post);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil update alamat pengambilan</div>');
+        redirect('order/checkout');
+    }
+
     public function alamat_pengantaran()
     {
         $data = [
-            'title'     => 'Checkout',
+            'title'     => 'Alamat Pengantaran',
             'content'   => 'order/alamat_pengantaran'
         ];
         $this->load->view('templates/frontend/index',$data);
+    }
+
+    public function update_alamat_pengantaran()
+    {
+        $post = [
+            'id'                    => $this->input->post('id_transaksi'),
+            'alamat_pengantaran'    => $this->input->post('alamat_pengantaran'),
+            'koordinat_pengambilan' => $this->input->post('longitude').",".$this->input->post('latitude')
+        ];
+        // print('<pre>');print_r($post);exit();
+        $this->mod->updateAlamat($post);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil update alamat pengantaran</div>');
+        redirect('order/checkout');
     }
 
     public function show_alamat_asal()
