@@ -563,33 +563,36 @@
                     }
                 });
             } else {
+                var jarak1;
+                var jarak2;
                 var arrJarak = [];
-                console.log(arrJarak)
-                console.log(arrJarak[1])
+                Array.isArray(arrJarak);
                 let request1 = {
                     origin          : koordinatPetShop,
                     destination     : koordinatPengambilan,
                     travelMode      : 'DRIVING'
                 }
+                directionsService.route(request1, function(response, status) {
+                    if ( status == google.maps.DirectionsStatus.OK ) {
+                        jarak1 =  response.routes[0].legs[0].distance.text; 
+                        arrJarak.push(jarak1);
+                    }
+                });
+                
                 let request2 = {
                     origin          : koordinatPetShop,
                     destination     : koordinatPengantaran,
                     travelMode      : 'DRIVING'
                 }
             
-                directionsService.route(request1, function(response, status) {
-                    if ( status == google.maps.DirectionsStatus.OK ) {
-                        var jarak1 =  response.routes[0].legs[0].distance.text; 
-                        arrJarak.push(jarak1);
-                    }
-                });
                 directionsService.route(request2, function(response, status) {
                     if ( status == google.maps.DirectionsStatus.OK ) {
-                        var jarak2 =  response.routes[0].legs[0].distance.text; 
+                        jarak2 =  response.routes[0].legs[0].distance.text; 
                         arrJarak.push(jarak2);
                     }
                 });
-                console.log(arrJarak[1])
+                console.log(arrJarak);
+                console.log(arrJarak[1]);
                 // $.ajax({
                 //     url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
                 //     method  : 'POST',
