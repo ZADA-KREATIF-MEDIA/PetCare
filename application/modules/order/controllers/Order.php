@@ -110,7 +110,7 @@ class Order extends MX_Controller
         $post = [
             'id'                    => $this->input->post('id_transaksi'),
             'alamat_pengambilan'    => $this->input->post('alamat_pengambilan'),
-            'koordinat_pengambilan' => $this->input->post('longitude').",".$this->input->post('latitude')
+            'koordinat_pengambilan' => $this->input->post('latitude').",".$this->input->post('longitude')
         ];
         // print('<pre>');print_r($post);exit();
         $this->mod->updateAlamat($post);
@@ -132,7 +132,7 @@ class Order extends MX_Controller
         $post = [
             'id'                    => $this->input->post('id_transaksi'),
             'alamat_pengantaran'    => $this->input->post('alamat_pengantaran'),
-            'koordinat_pengambilan' => $this->input->post('longitude').",".$this->input->post('latitude')
+            'koordinat_pengantaran' => $this->input->post('latitude').",".$this->input->post('longitude')
         ];
         // print('<pre>');print_r($post);exit();
         $this->mod->updateAlamat($post);
@@ -184,6 +184,14 @@ class Order extends MX_Controller
         // print('<pre>');print_r($post);exit();
         $_SESSION['alamat_penerima'] = $post;
         redirect('order');
+    }
+
+    public function hitung_harga_ongkir()
+    {
+        $jarak1     = $this->input->post('jarak');
+        $jarak2     = $this->input->post('jarak2');
+        $status     = $this->input->post('status');
+        echo $jarak1." ".$jarak2." ".$status;
     }
 
     /*---------- Order Barang ----------*/

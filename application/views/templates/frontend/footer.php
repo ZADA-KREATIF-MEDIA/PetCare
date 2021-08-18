@@ -81,8 +81,8 @@
 
 <!-- Template Main JS File -->
 <script src="<?= base_url() ?>assets/frontend/js/main.js"></script>
-<?php if($this->uri->segment(1) == "alamat_pengambilan" || $this->uri->segment(1) == "alamat_pengantaran" || $this->uri->segment(1) == "daftar"):?>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC-qlg8MsyURHrlu-NcS1wbMF278nxAnJY&sensor=false"></script>
+<?php if($this->uri->segment(1) == "alamat_pengambilan" || $this->uri->segment(1) == "alamat_pengantaran" || $this->uri->segment(2) == "daftar" || $this->uri->segment(2) == "checkout"):?>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC-qlg8MsyURHrlu-NcS1wbMF278nxAnJY&sensor=false"></script>
 <?php endif;?>
 <script>
     <?php if($this->uri->segment(1) == ""):?>
@@ -108,11 +108,11 @@
                 marker.setPosition(posisiTitik);
             } else {
               // buat marker baru
-              marker = new google.maps.Marker({
-                position: posisiTitik,
-                map: peta,
-                draggable: true 
-              });
+                marker = new google.maps.Marker({
+                    position: posisiTitik,
+                    map: peta,
+                    draggable: true 
+                });
             }
             document.getElementById("latitude").value = posisiTitik.lat();
             document.getElementById("longitude").value = posisiTitik.lng();
@@ -520,13 +520,17 @@
                     });
                 }
             }
-        // event jendela di-load  
+            // event jendela di-load  
             google.maps.event.addDomListener(window, 'load', initialize);
 		<?php break;
         case "checkout":?>
-            let koordinatPengambilan = '<?= $produk['koordinat_pengambilan'] ?>';
-            let koordinatPengantaran = '<?= $produk['koordinat_pengantaran'] ?>';
-            let koodinatPetShop     = '-7.970549,110.5886896,17';
+            var geocoder = new google.maps.Geocoder();
+            let koordinatPengambilan    = '<?= $produk['koordinat_pengambilan'] ?>';
+            let koordinatPengantaran    = '<?= $produk['koordinat_pengantaran'] ?>';
+            let koordinatPetShop        = '-7.970549,110.5886896';
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            
             const updateKeranjang = (id) => {
                 $.ajax({
                     url     : '<?= base_url('order/showDetailKeranjang') ?>',
@@ -544,6 +548,56 @@
                         $('#editKeranjang').modal('show');
                     }
                 });
+            }
+            if(koordinatPengambilan == koordinatPengantaran) {
+                let request = {
+                    origin          : koordinatPetShop,
+                    destination     : koordinatPengambilan,
+                    travelMode      : 'DRIVING'
+                }
+                // console.log(request);
+                directionsService.route(request, function(response, status) {
+                    if ( status == google.maps.DirectionsStatus.OK ) {
+                        jarak =  response.routes[0].legs[0].distance.text; 
+                        console.log(jarak);
+                    }
+                });
+            } else {
+                var arrJarak = [];
+                console.log(arrJarak)
+                console.log(arrJarak[1])
+                let request1 = {
+                    origin          : koordinatPetShop,
+                    destination     : koordinatPengambilan,
+                    travelMode      : 'DRIVING'
+                }
+                let request2 = {
+                    origin          : koordinatPetShop,
+                    destination     : koordinatPengantaran,
+                    travelMode      : 'DRIVING'
+                }
+            
+                directionsService.route(request1, function(response, status) {
+                    if ( status == google.maps.DirectionsStatus.OK ) {
+                        var jarak1 =  response.routes[0].legs[0].distance.text; 
+                        arrJarak.push(jarak1);
+                    }
+                });
+                directionsService.route(request2, function(response, status) {
+                    if ( status == google.maps.DirectionsStatus.OK ) {
+                        var jarak2 =  response.routes[0].legs[0].distance.text; 
+                        arrJarak.push(jarak2);
+                    }
+                });
+                console.log(arrJarak[1])
+                // $.ajax({
+                //     url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
+                //     method  : 'POST',
+                //     data    : { jarak1 : arrJarak[0], jarak2: arrjarak[1], status : 'beda' },
+                //     success : function(res){
+                //         console.log(res);
+                //     }
+                // });
             }
         <?php break;?>
     <?php endswitch; ?>
