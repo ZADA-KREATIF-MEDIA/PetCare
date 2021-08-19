@@ -188,10 +188,112 @@ class Order extends MX_Controller
 
     public function hitung_harga_ongkir()
     {
-        $jarak1     = $this->input->post('jarak');
-        $jarak2     = $this->input->post('jarak2');
-        $status     = $this->input->post('status');
-        echo $jarak1." ".$jarak2." ".$status;
+        $jarak      = explode(" ",$this->input->post('jarak'));
+        $dt_ongkir  = $this->mod->getOngkir();
+        if($dt_ongkir['status_jarak_minimal'] == "aktif"){
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     = 0;
+                $hasil['harga_txt'] = 0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        } else {
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $hitung = round($jarak[0] * $dt_ongkir['harga']);
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     =  0;
+                $hasil['harga_txt'] =  0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        }
+        echo json_encode($hasil);
+    }
+
+    public function hitung_harga_pengambilan()
+    {
+        $jarak      = explode(" ",$this->input->post('jarak'));
+        $dt_ongkir  = $this->mod->getOngkir();
+        if($dt_ongkir['status_jarak_minimal'] == "aktif"){
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     = 0;
+                $hasil['harga_txt'] = 0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        } else {
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $hitung = round($jarak[0] * $dt_ongkir['harga']);
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     =  0;
+                $hasil['harga_txt'] =  0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        }
+        $_SESSION['hasil_pengambilan'] = $hitung;
+        echo json_encode($hasil);
+    }
+
+    public function hitung_harga_pengantaran()
+    {
+        $jarak      = explode(" ",$this->input->post('jarak'));
+        $dt_ongkir  = $this->mod->getOngkir();
+        if($dt_ongkir['status_jarak_minimal'] == "aktif"){
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     = 0;
+                $hasil['harga_txt'] = 0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        } else {
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $hitung = round($jarak[0] * $dt_ongkir['harga']);
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     =  0;
+                $hasil['harga_txt'] =  0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        }
+        $_SESSION['hasil_pengantaran'] = $hitung;
+        echo json_encode($hasil);
     }
 
     /*---------- Order Barang ----------*/

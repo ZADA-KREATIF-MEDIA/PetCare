@@ -50,13 +50,24 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item ">
                                 Subtotal Produk
-                                <div class="float-right">Rp. <?= number_format($total_produk,0,',','.'); ?></div>
+                                <div class="float-right"><?= number_format($total_produk,0,',','.'); ?></div>
+                                <input type="hidden" id="valueSubtotalProduk" value="<?= $total_produk ?>">
                         </li>
                         <li class="list-group-item">
-                            Biaya Pengiriman
-                            <div class="float-right" id="biayaOngkir"></div>
+                            Biaya Pengambilan (<span id="jarakPengambilan"></span>)
+                            <div class="float-right" id="biayaOngkirPengambilan"></div>
+                            <input type="hidden" id="valueBiayaOngkirPengambilan" value="<?= $_SESSION['hasil_pengambilan']; ?>">
                         </li>
-                        <li class="list-group-item">Total</li>
+                        <li class="list-group-item">
+                            Biaya Pengantaran (<span id="jarakPengantaran"></span>)
+                            <div class="float-right" id="biayaOngkirPengantaran"></div>
+                            <input type="hidden" id="valueBiayaOngkirPengantaran" value="<?= $_SESSION['hasil_pengantaran'] ?>">
+                        </li>
+                        <li class="list-group-item">
+                            Total
+                            <div class="float-right" id="totalBelanja"></div>
+                            <input type="hidden" id="valueTotalBelanja">
+                        </li>
                     </ul>
                 </div>
             </div>

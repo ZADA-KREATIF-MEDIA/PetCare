@@ -183,6 +183,16 @@ class OrderModel extends CI_Model {
         $this->db->query($query);
         return true;	
     }
+
+    public function getOngkir()
+    {
+        $this->db->select()
+                ->from('tarif_ongkir')
+                ->limit(1);
+        $query = $this->db->get_compiled_select();
+        $data  = $this->db->query($query)->row_array();
+        return $data;
+    }
     /*----- old ------*/
     private function _uploadImage($nama_rider,$id_order,$status_order)
     {
