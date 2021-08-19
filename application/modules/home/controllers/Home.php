@@ -42,7 +42,7 @@ class Home extends MX_Controller
             'no_hp'             => $this->input->post('no_hp'),
             'nama'              => $this->input->post('nama'),
             'password'          => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
-            'koordinat_alamat'  => $this->input->post('longitude').",".$this->input->post('latitude'),
+            'koordinat_alamat'  => $this->input->post('latitude').",".$this->input->post('longitude'),
             'alamat'            => $this->input->post('alamat')
         ];
         $this->mod->saveUser($post);

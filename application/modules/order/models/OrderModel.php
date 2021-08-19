@@ -193,6 +193,17 @@ class OrderModel extends CI_Model {
         $data  = $this->db->query($query)->row_array();
         return $data;
     }
+
+    public function updateTransaksi($post)
+    {
+        print('<pre>');print_r($post);exit();
+        $this->db->select()
+            ->from('transaksi')
+            ->where("id", $post['id']);
+        $query = $this->db->set($post)->get_compiled_update();
+        $this->db->query($query);
+        return true;	
+    }
     /*----- old ------*/
     private function _uploadImage($nama_rider,$id_order,$status_order)
     {

@@ -30,7 +30,7 @@
                 <input type="hidden" name="id_transaksi" value="<?= $this->uri->segment(2) ?>">
                 <input type="hidden" name="longitude" id="longitude">
                 <input type="hidden" name="latitude" id="latitude">
-                <button type="submit" class="btn btn-success btn-success btn-block mt-3">Daftar</button>
+                <button type="submit" class="btn btn-success btn-success btn-block mt-3 text-uppercase">simpan</button>
             <?= form_close() ?>
         </div>
     </section>

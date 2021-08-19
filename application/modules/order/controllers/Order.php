@@ -43,6 +43,11 @@ class Order extends MX_Controller
 
     public function checkout()
     {
+        $cek_keranjang = $this->mod->getAllKeranjang();
+        if($cek_keranjang['id_transaksi'] == ""){
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Harap melakukan transaksi terlebih dahulu</div>');
+            redirect('order');
+        }
         $data = [
             'title'     => 'Checkout',
             'content'   => 'order/checkout',
@@ -140,52 +145,6 @@ class Order extends MX_Controller
         redirect('order/checkout');
     }
 
-    public function show_alamat_asal()
-    {
-        is_logged_in_user();
-        $data['title'] = 'Alamat Pengirim';
-        $this->load->view('templates/frontend/depan/header', $data);
-        $this->load->view('templates/frontend/depan/menu');
-        $this->load->view('alamat_asal');
-        $this->load->view('templates/frontend/depan/footer');
-    }
-
-    public function save_alamat_asal()
-    {
-        $koordinat = $this->input->post('latitude', true).",".$this->input->post('longitude', true);
-        $post = [
-            'alamat'        => $this->input->post('alamat', true),
-            'koordinat'     => $koordinat,
-            'kabupaten'     => $this->input->post('kabupaten',true)
-        ];
-        // print('<pre>');print_r($post);exit();
-        $_SESSION['alamat_asal'] = $post;
-        redirect('order');
-    }
-
-    public function show_alamat_penerima()
-    {
-        is_logged_in_user();
-        $data['title'] = 'Alamat Penerima';
-        $this->load->view('templates/frontend/depan/header', $data);
-        $this->load->view('templates/frontend/depan/menu');
-        $this->load->view('alamat_penerima');
-        $this->load->view('templates/frontend/depan/footer');
-    }
-
-    public function save_alamat_penerima()
-    {
-        $koordinat = $this->input->post('latitude', true).",".$this->input->post('longitude', true);
-        $post = [
-            'alamat'        => $this->input->post('alamat', true),
-            'koordinat'     => $koordinat,
-            'kabupaten'     => $this->input->post('kabupaten',true)
-        ];
-        // print('<pre>');print_r($post);exit();
-        $_SESSION['alamat_penerima'] = $post;
-        redirect('order');
-    }
-
     public function hitung_harga_ongkir()
     {
         $jarak      = explode(" ",$this->input->post('jarak'));
@@ -193,7 +152,7 @@ class Order extends MX_Controller
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
                 $cek_selsih_jarak_minimal = $jarak[0] - 5;
-                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                $hitung = round(($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']))*2);
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
                 $hasil['harga_txt'] = number_format($hitung,0,',','.');
@@ -207,7 +166,7 @@ class Order extends MX_Controller
         } else {
             if($jarak[1] == "km"){
                 $cek_selsih_jarak_minimal = $jarak[0] - 5;
-                $hitung = round($jarak[0] * $dt_ongkir['harga']);
+                $hitung = round(($jarak[0] * $dt_ongkir['harga'])*2);
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
                 $hasil['harga_txt'] = number_format($hitung,0,',','.');
@@ -219,6 +178,7 @@ class Order extends MX_Controller
                 $hasil['jarak']     = $this->input->post('jarak');
             }
         }
+        $_SESSION['hasil_ongkir'] = $hitung;
         echo json_encode($hasil);
     }
 
@@ -294,6 +254,42 @@ class Order extends MX_Controller
         }
         $_SESSION['hasil_pengantaran'] = $hitung;
         echo json_encode($hasil);
+    }
+
+    public function simpan_transaksi()
+    {
+        $biaya_ongkir               = $this->input->post('biaya_ongkir');
+        $biaya_ongkir_pengambilan   = $this->input->post('biaya_ongkir_pengambilan');
+        $biaya_ongkir_pengantaran   = $this->input->post('biaya_ongkir_pengantaran');
+        $total                      = $this->input->post('total_belanja');
+        if($biaya_ongkir != ""){
+            $post = [
+                'id'                => $this->input->post('id_transaksi'),
+                'ongkir'            => $biaya_ongkir,
+                'total_pembelian'   => $total,
+                'status'            => 'proses'
+            ];
+        } else {
+            $post = [
+                'id'                => $this->input->post('id_transaksi'),
+                'ongkir'            => $biaya_ongkir_pengambilan + $biaya_ongkir_pengantaran,
+                'total_pembelian'   => $total,
+                'status'            => 'proses'
+            ];
+        }
+        // print('<pre>');print_r($post);exit();
+        $this->mod->updateTransaksi($post);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil checkout keranjang</div>');
+        redirect('order/transaksi');
+    }
+
+    public function transaksi()
+    {
+        $data = [
+            'title'     => 'Alamat Pengantaran',
+            'content'   => 'order/transaksi'
+        ];
+        $this->load->view('templates/frontend/index',$data);
     }
 
     /*---------- Order Barang ----------*/

@@ -564,9 +564,28 @@
                 // console.log(request);
                 directionsService.route(request, function(response, status) {
                     if ( status == google.maps.DirectionsStatus.OK ) {
-                        jarak =  response.routes[0].legs[0].distance.text; 
-                        console.log(jarak);
+                        jarak =  response.routes[0].legs[0].distance.text;
+                        $.ajax({
+                            url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
+                            method  : 'POST',
+                            data    : { jarak : jarak},
+                            success : function(res){
+                                let hasil = $.parseJSON(res);
+                                console.log(hasil);
+                                $('#jarakOngkir').text(hasil.jarak);
+                                $('#biayajarakOngkir').text(hasil.harga_txt);
+                                $('#valueBiayajarakOngkir').val(hasil.harga);
+                            }
+                        }); 
                     }
+                    const hitungTotal = () => {
+                        let a = parseInt($('#valueBiayajarakOngkir').val());
+                        let subTotal = parseInt($('#valueSubtotalProduk').val());
+                        let total = a+subTotal;
+                        $('#totalBelanja').text(convertToRupiah(total));
+                        $('#valueTotalBelanja').val(total);
+                    }
+                    hitungTotal();
                 });
             } else {
                 var jarak1;
