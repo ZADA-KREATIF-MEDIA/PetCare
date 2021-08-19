@@ -44,7 +44,7 @@ class Order extends MX_Controller
     public function checkout()
     {
         $cek_keranjang = $this->mod->getAllKeranjang();
-        if($cek_keranjang['id_transaksi'] == ""){
+        if($cek_keranjang['id_transaksi'] == "" || $cek_keranjang['count_produk'] < 1){
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Harap melakukan transaksi terlebih dahulu</div>');
             redirect('order');
         }
@@ -287,8 +287,10 @@ class Order extends MX_Controller
     {
         $data = [
             'title'     => 'Alamat Pengantaran',
-            'content'   => 'order/transaksi'
+            'content'   => 'order/transaksi',
+            'transaksi' => $this->mod->getTransaksi($this->session->userdata('user_id'))
         ];
+        // print('<pre>');print_r($data['transaksi']);exit();
         $this->load->view('templates/frontend/index',$data);
     }
 

@@ -12,7 +12,7 @@
                 <?php if($this->session->userdata('user_id')):?>
                     <li id="order"><a href="<?= base_url('/order') ?>">Produk</a></li>
                     <li id="produk"><a href="<?= base_url('/order/checkout') ?>">Checkout</a></li>
-                    <li id="transaksi"><a href="#portfolio">Transaksi</a></li>
+                    <li id="transaksi"><a href="<?= base_url('/order/transaksi')?>">Transaksi</a></li>
                 <?php endif; ?>    
             </ul>
         </nav><!-- .nav-menu -->
