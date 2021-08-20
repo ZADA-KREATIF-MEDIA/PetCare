@@ -8,7 +8,7 @@
 
         <nav class="nav-menu d-none d-lg-block">
             <ul>
-                    <li id="halaman"><a href="<?= base_url('/')?>">Home</a></li>
+                    <li id="home"><a href="<?= base_url('/')?>">Home</a></li>
                 <?php if($this->session->userdata('user_id')):?>
                     <li id="order"><a href="<?= base_url('/order') ?>">Produk</a></li>
                     <li id="produk"><a href="<?= base_url('/order/checkout') ?>">Checkout</a></li>

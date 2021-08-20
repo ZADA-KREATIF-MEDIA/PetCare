@@ -654,6 +654,20 @@
                     data    : { id : id },
                     success : function(res) {
                         let hasil = $.parseJSON(res);
+                        $('#detailTransaksi').empty();
+                        let html = '';
+                        $.each(hasil, function(index,value){
+                            html = `
+                            <div class="mb-3">
+                                <h5>${value.nama_barang} | ${value.kategori}</h5>
+                                <span class="d-block">@${value.harga}x${value.jumlah} = ${value.total_harga}</span>
+                                <span>Catatan:</span>
+                                <span>${value.catatan}</span>
+                            </div>
+                            `;
+                        });
+                        $('#detailTransaksi').append(html);
+                        $('#detailTransaksiModal').modal('show');
                     } 
                 });
             }
