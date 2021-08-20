@@ -22,7 +22,11 @@
                                 <h6>Stock <span class="badge badge-info"><?= $p['stock'] ?></span></h6>
                                 <span class="card-text">Rp. <?= number_format($p['harga'],0,',','.') ?></span> |
                                 <span class="card-text"><?= $p['nama'] ?></span>
-                                <button type="button" onclick="beli(<?= $p['id'] ?>)" class=" mt-2 btn btn-sm btn-block btn-success text-uppercase">beli</button>
+                                <?php if($this->session->userdata('user_nama') != ""):?>
+                                    <button type="button" onclick="beli(<?= $p['id'] ?>)" class="mt-2 btn btn-sm btn-block btn-success text-uppercase">beli</button>
+                                <?php else:?>
+                                    <a href="<?= base_url('home/show_login') ?>" class="mt-2 btn btn-sm btn-block btn-dark text-uppercase">login</a>
+                                <?php endif;?>
                             </div>
                         </div>
                     </div>
