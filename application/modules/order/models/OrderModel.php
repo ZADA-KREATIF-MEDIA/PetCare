@@ -279,4 +279,26 @@ class OrderModel extends CI_Model {
         $data  = $this->db->query($query)->result_array();
         return $data;
     }
+
+    public function getDetailTransaksi($id)
+    {
+        $this->db->select('a.harga as total_harga,a.catatan,a.jumlah,b.nama_produk,b.harga,c.nama')
+                ->from('detail_transaksi as a')
+                ->join('produk as b','b.id=a.id_produk')
+                ->join('kategori as c','c.id=b.id_kategori')
+                ->where('a.id_transaksi', $id);
+        $query = $this->db->get_compiled_select();
+        $data  = $this->db->query($query)->result_array();
+        $i = 0;
+        foreach ($data as $d){
+            $hasil[$i]['nama_barang']   = $d['nama_produk'];
+            $hasil[$i]['harga']         = number_format($d['harga'],0,',','.');
+            $hasil[$i]['total_harga']   = number_format($d['total_harga'] * $d['jumlah'],0,',','.'); 
+            $hasil[$i]['catatan']       = $d['catatan']; 
+            $hasil[$i]['jumlah']        = $d['jumlah']; 
+            $hasil[$i]['kategori']      = $d['nama']; 
+            $i++;
+        }
+        return $hasil;
+    }
 }

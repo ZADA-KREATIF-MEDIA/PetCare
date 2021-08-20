@@ -274,7 +274,8 @@ class Order extends MX_Controller
                 'id'                => $this->input->post('id_transaksi'),
                 'ongkir'            => $biaya_ongkir_pengambilan + $biaya_ongkir_pengantaran,
                 'total_pembelian'   => $total,
-                'status'            => 'proses'
+                'status'            => 'proses',
+                'tanggal'           => date("Y-m-d H:i:s")
             ];
         }
         // print('<pre>');print_r($post);exit();
@@ -292,6 +293,12 @@ class Order extends MX_Controller
         ];
         // print('<pre>');print_r($data['transaksi']);exit();
         $this->load->view('templates/frontend/index',$data);
+    }
+
+    public function detail_transaksi()
+    {
+        $data = $this->mod->getDetailTransaksi($this->input->post('id'));
+        echo json_encode($data);
     }
 
     /*---------- Order Barang ----------*/
