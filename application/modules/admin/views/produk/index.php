@@ -21,6 +21,7 @@
                             <th>Nama Produk</th>
                             <th>Kategori Produk</th>
                             <th>Harga</th>
+                            <th>stock</th>
                             <th>aksi</th>
                         </tr>
                     </thead>
@@ -31,6 +32,7 @@
                             <th>Nama Produk</th>
                             <th>Kategori Produk</th>
                             <th>Harga</th>
+                            <th>stock</th>
                             <th>aksi</th>
                         </tr>
                     </tfoot>
@@ -47,6 +49,7 @@
                                 <td><?= $data['nama_produk'] ?></td>
                                 <td><?= $data['nama'] ?></td>
                                 <td>Rp. <?= number_format($data['harga']); ?></td>
+                                <td><?= $data['stock'] ?></td>
                                 <td>
                                     <a href="<?= base_url('admin/produk/update/') . $data['id']; ?>" class="btn btn-warning btn-circle btn-sm" alt="edit">
                                         <i class="fas fa-book"></i>

@@ -50,7 +50,7 @@
                         ?>
                             <tr>
                                 <td><?php echo $nomor++; ?></td>
-                                <td><?= $data['id'] ?></td>
+                                <td><?= $data['nama'] ?></td>
                                 <td><?= $data['alamat_pengambilan'] ?></td>
                                 <!-- <td><?= $data['koordinat_pengambilan'] ?></td>
                                 <td><?= $data['koordinat_pengantaran'] ?></td> -->
@@ -72,9 +72,9 @@
 
                                 </td>
                                 <td>
-                                    <a href="<?= base_url('admin/pesanan/detail/') . $data['id']; ?>" class="btn btn-primary btn-circle btn-sm" alt="edit">
+                                    <!-- <a href="<?= base_url('admin/pesanan/detail/') . $data['id']; ?>" class="btn btn-primary btn-circle btn-sm" alt="edit">
                                         <i class="fas fa-eye"></i>
-                                    </a>
+                                    </a> -->
                                     <a href="<?= base_url('admin/pesanan/update/') . $data['id']; ?>" class="btn btn-warning btn-circle btn-sm" alt="edit">
                                         <i class="fas fa-book"></i>
                                     </a>

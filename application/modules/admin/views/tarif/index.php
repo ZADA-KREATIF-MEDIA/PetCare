@@ -3,12 +3,12 @@
         <div class="card-header py-3">
             <h6 class="float-left font-weight-bold text-primary">Data <?= $title ?></h6>
             <!--button trigger-->
-            <a href="<?= base_url('admin/tarif/create') ?>" class="btn btn-primary btn-icon-split btn-sm float-right">
+            <!-- <a href="<?= base_url('admin/tarif/create') ?>" class="btn btn-primary btn-icon-split btn-sm float-right">
                 <span class="icon text-white">
                     <i class="fas fa-plus"></i>
                 </span>
                 <span class="text">Tambah</span>
-            </a>
+            </a> -->
             <!--end button trigger-->
         </div>
         <div class="card-body">
@@ -30,6 +30,7 @@
                             <th>Jarak Minimal</th>
                             <th>Tarif/Harga Minimal</th>
                             <th>Harga</th>
+                            >
                             <th>status</th>
                             <th>aksi</th>
                         </tr>
@@ -45,6 +46,7 @@
                                 <td><?= $data['jarak_minimal'] ?> (KM)</td>
                                 <td>Rp. <?= number_format($data['harga_jarak_minimal']); ?></td>
                                 <td>Rp. <?= number_format($data['harga']); ?></td>
+                                
                                 <td>
                                     <?php
                                     if ($data['status_jarak_minimal'] == 'aktif') {
@@ -58,9 +60,9 @@
                                     <a href="<?= base_url('admin/tarif/update/') . $data['id']; ?>" class="btn btn-warning btn-circle btn-sm" alt="edit">
                                         <i class="fas fa-book"></i>
                                     </a>
-                                    <a href="<?= base_url('admin/tarif/delete/') . $data['id']; ?>" class="btn btn-danger btn-circle btn-sm" alt="delete">
+                                    <!-- <a href="<?= base_url('admin/tarif/delete/') . $data['id']; ?>" class="btn btn-danger btn-circle btn-sm" alt="delete">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </a> -->
                                 </td>
                             </tr>
                         <?php

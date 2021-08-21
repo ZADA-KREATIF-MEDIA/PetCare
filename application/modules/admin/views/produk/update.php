@@ -25,6 +25,10 @@
                         <input type="number" value="<?= $produk->harga ?>" class="form-control" name="harga" placeholder="Harga Produk ..." required>
                     </div>
                     <div class="form-group">
+                    <label><strong>Stock : </strong></label>
+                    <input type="number" value="<?= $produk->stock ?>" class="form-control" name="stock" placeholder="Stok Produk ..." maxlength="2" minlength="0" require>
+                </div>
+                    <div class="form-group">
                         <label><strong>Foto Produk : </strong></label>
                         <img src="/assets/gambar_produk/<?= $produk->gambar ?>" width="100px">
                         <input type="file" value="<?= $produk->nama_produk ?>" class="form-control-file" name="gambar">
