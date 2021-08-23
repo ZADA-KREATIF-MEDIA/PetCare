@@ -10,7 +10,7 @@ class ProdukModel extends CI_Model
     public function getAllJoin()
     {
         $this->db
-            ->select('produk.id,produk.nama_produk,produk.harga,produk.gambar,produk.id_kategori,kategori.nama')
+            ->select('produk.id,produk.stock,produk.nama_produk,produk.harga,produk.gambar,produk.id_kategori,kategori.nama')
             ->from($this->table)
             ->join('kategori', 'produk.id_kategori = kategori.id', 'LEFT');
         $query = $this->db->get();

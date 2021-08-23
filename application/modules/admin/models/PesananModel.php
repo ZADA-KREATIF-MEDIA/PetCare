@@ -10,9 +10,9 @@ class PesananModel extends CI_Model
     public function getAllJoin()
     {
         $this->db
-            ->select('produk.id,produk.nama_produk,produk.harga,produk.gambar,produk.id_kategori,kategori.nama')
+            ->select('transaksi.id, user.nama,transaksi.alamat_pengambilan,transaksi.total_pembelian,transaksi.ongkir,transaksi.catatan,transaksi.status')
             ->from($this->table)
-            ->join('kategori', 'produk.id_kategori = kategori.id', 'LEFT');
+            ->join('user', 'transaksi.id_user = user.id', 'LEFT');
         $query = $this->db->get();
         return $query->result_array();
     }

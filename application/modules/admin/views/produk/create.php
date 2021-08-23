@@ -24,6 +24,10 @@
                     <input type="number" class="form-control" name="harga" placeholder="Harga Produk ..." required>
                 </div>
                 <div class="form-group">
+                    <label><strong>Stock : </strong></label>
+                    <input type="number" class="form-control" name="stock" placeholder="Stok Produk ..." maxlength="100" minlength="0" require>
+                </div>
+                <div class="form-group">
                     <label><strong>Foto Produk : </strong></label>
                     <input type="file" class="form-control-file" name="gambar">
                 </div>

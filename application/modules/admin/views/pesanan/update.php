@@ -4,38 +4,34 @@
             <h6 class="float-left font-weight-bold text-primary">Data <?= $title ?></h6>
         </div>
         <div class="card-body">
-            <div class="col-md-6">
-                <form action="<?= base_url('admin/produk/update_save') ?>" method="POST">
-                    <input type="hidden" name="id" id="id" value="<?= $produk->id; ?>" />
+            <div class="col-md-8">
+                <form action="<?= base_url('admin/pesanan/update_save') ?>" method="POST">
+                    <input type="hidden" name="id" id="id" value="<?= $pesanan->id; ?>" />
                     <div class="form-group">
-                        <label><strong>Nama Produk : </strong></label>
-                        <input type="text" value="<?= $produk->nama_produk ?>" class="form-control" name="nama_produk" placeholder="Nama Produk ...." required>
+                        <label><strong>Nama Customer : </strong></label>
+                        <input type="text" value="<?= $pesanan->id_user ?>" class="form-control input-lg" name="nama_produk" placeholder="Nama Produk ...." readonly>
                     </div>
                     <div class="form-group">
-                        <label><strong>Kategori Produk : </strong></label>
-                        <select class="form-control" name="id_kategori">
-                            <option>-- Pilih Kategori Produk --</option>
-                            <?php foreach ($kategori as $data) { ?>
-                                <option value="<?= $data['id'] ?>" <?php if ($data['id'] == $produk->id_kategori) echo 'selected="selected"'; ?>> <?= $data['nama'] ?></option>
-                            <?php  } ?>
-                        </select>
+                        <label><strong>Alamat Pick-UP : </strong></label>
+                        <input type="text" value="<?= $pesanan->alamat_pengambilan ?>" class="form-control input-lg" name="nama_produk" placeholder="Nama Produk ...." readonly>
                     </div>
                     <div class="form-group">
-                        <label><strong>Harga : </strong></label>
-                        <input type="number" value="<?= $produk->harga ?>" class="form-control" name="harga" placeholder="Harga Produk ..." required>
-                    </div>
-                    <div class="form-group">
-                        <label><strong>Foto Produk : </strong></label>
-                        <img src="/assets/gambar_produk/<?= $produk->gambar ?>" width="100px">
-                        <input type="file" value="<?= $produk->nama_produk ?>" class="form-control-file" name="gambar">
+                        <label><strong>Alamat Pengantaran : </strong></label>
+                        <input type="text" value="<?= $pesanan->alamat_pengantaran ?>" class="form-control input-lg" name="nama_produk" placeholder="Nama Produk ...." readonly>
                     </div>
             </div>
             <!-- button trigger -->
-            <button type="submit" class="btn btn-warning btn-icon-split">
+            <button type="submit" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-save"></i>
                 </span>
-                <span class="text">Update</span>
+                <span class="text">TERIMA PESANAN</span>
+            </button>
+            <button  class="btn btn-danger btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-cross"></i>
+                </span>
+                <span class="text">TOLAK PESANAN</span>
             </button>
             <button onclick="window.history.go(-1); return false;" class="btn btn-dark btn-icon-split">
                 <span class="icon text-white-50">
