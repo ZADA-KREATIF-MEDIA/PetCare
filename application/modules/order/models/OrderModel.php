@@ -14,6 +14,27 @@ class OrderModel extends CI_Model {
         return $data;
     }
 
+    public function getAllProdukByKategori($kategori)
+    {
+        $this->db->select('a.id,a.nama_produk,a.harga,a.gambar,a.stock, b.nama')
+                ->from('produk as a')
+                ->join('kategori as b','a.id_kategori = b.id','left')
+                ->where('a.stock > 0')
+                ->where('a.id_kategori',$kategori);
+        $query = $this->db->get_compiled_select();
+        $data  = $this->db->query($query)->result_array();
+        return $data;
+    }
+
+    public function getAllKategori()
+    {
+        $this->db->select()
+                ->from('kategori');
+        $query = $this->db->get_compiled_select();
+        $data  = $this->db->query($query)->result_array();
+        return $data;
+    }
+
     public function getAllKeranjang()
     {
         $this->db->select('id, koordinat_pengambilan, alamat_pengambilan, koordinat_pengantaran, alamat_pengantaran')

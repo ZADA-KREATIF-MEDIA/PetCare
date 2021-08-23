@@ -19,7 +19,7 @@
                         <select name="kategori" id="kategori" class="form-control" required>
                             <option value="0">SEMUA</option>
                             <?php foreach($kategori as $k):?>
-                                <option value="<?= $k['id']?>"><?= $k['nama'] ?></option>
+                                <option value="<?= $k['id']?>" <?php if($k['id'] == $_SESSION['kode_kategori']){ echo "selected"; }?>><?= $k['nama'] ?></option>
                             <?php endforeach;?>
                         </select>
                         <div class="input-group-append">

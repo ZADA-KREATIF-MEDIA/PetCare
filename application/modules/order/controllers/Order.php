@@ -15,9 +15,29 @@ class Order extends MX_Controller
         $data = [
             'title'     => 'Order',
             'content'   => 'order/index',
-            'produk'    =>  $this->mod->getAllProduk()
+            'produk'    =>  $this->mod->getAllProduk(),
+            'kategori'  =>  $this->mod->getAllKategori()
         ];
+
         $this->load->view('templates/frontend/index',$data);
+    }
+
+    public function kategori()
+    {
+        $kategori = $this->input->post('kategori');
+        if($kategori == 0){
+            unset($_SESSION['kode_kategori']);
+            redirect('order');
+        } else {
+            $data = [
+                'title'     => 'Order',
+                'content'   => 'order/kategori',
+                'produk'    =>  $this->mod->getAllProdukByKategori($kategori),
+                'kategori'  =>  $this->mod->getAllKategori()
+            ];
+            $_SESSION['kode_kategori'] = $kategori;
+            $this->load->view('templates/frontend/index',$data);
+        }
     }
 
     public function show()
