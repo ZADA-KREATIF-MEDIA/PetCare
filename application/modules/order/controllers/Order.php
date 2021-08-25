@@ -287,7 +287,9 @@ class Order extends MX_Controller
                 'id'                => $this->input->post('id_transaksi'),
                 'ongkir'            => $biaya_ongkir,
                 'total_pembelian'   => $total,
-                'status'            => 'proses'
+                'status'            => 'proses',
+                'tanggal'           => date("Y-m-d H:i:s"),
+                'catatan'           => $this->input->post('catatan')
             ];
         } else {
             $post = [
@@ -295,6 +297,7 @@ class Order extends MX_Controller
                 'ongkir'            => $biaya_ongkir_pengambilan + $biaya_ongkir_pengantaran,
                 'total_pembelian'   => $total,
                 'status'            => 'proses',
+                'catatan'           => $this->input->post('catatan'),
                 'tanggal'           => date("Y-m-d H:i:s")
             ];
         }

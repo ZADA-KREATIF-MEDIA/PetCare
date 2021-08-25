@@ -9,7 +9,7 @@
     <section class="inner-page">
         <div class="container">
             <?php foreach($transaksi as $t):?>
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header">
                         <div class="float-left">
                             Transaksi <?= $t['tanggal'] ?>
@@ -39,6 +39,7 @@
                             </div>
                         </div>
                         <button type="button" class="btn btn-info btn-sm rounded" onclick="detailTransaksi(<?= $t['id'] ?>)">Detail</button>
+                        <a class="btn btn-outline-success btn-sm" target="_blank" href="https://wa.me/+6282293321335?text=Halo Saya Ingin Mengkonfirmasi pembayaran dengan kode transaksi <?= $t['id']?> tanggal <?= $t['tanggal'] ?>"><i class="fab fa-whatsapp"></i>&nbsp;Konfirmasi pembayaran</a>
                     </div>
                 </div>
             <?php endforeach; ?>

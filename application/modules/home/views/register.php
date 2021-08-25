@@ -33,11 +33,14 @@
                         <div class="input-group-append">
                             <button type="button" class="input-group-text" id="basic-addon2" onclick="getlatlang()"><i class="fas fa-search"></i></button>
                         </div>
+                        <div class="input-group-append">
+                            <button type="button" class="input-group-text bg-success text-white"  onclick="getLocation()"><i class="fas fa-map-marker-alt"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div class="form- col-12 px-0">
                     <label for="detailAlamat">Detail Alamat</label>
-                    <textarea  id="detailAlamat" class="form-control"></textarea>
+                    <textarea  id="detailAlamat" name="alamat" class="form-control"></textarea>
                 </div>
                 <div id="map" style="width:100%;height:350px;"></div>
                 <input type="hidden" name="longitude" id="longitude">

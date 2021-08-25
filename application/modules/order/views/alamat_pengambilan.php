@@ -21,6 +21,9 @@
                         <div class="input-group-append">
                             <button type="button" class="input-group-text" id="basic-addon2" onclick="getlatlang()"><i class="fas fa-search"></i></button>
                         </div>
+                        <div class="input-group-append">
+                            <button type="button" class="input-group-text bg-success text-white"  onclick="getLocation()"><i class="fas fa-map-marker-alt"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">

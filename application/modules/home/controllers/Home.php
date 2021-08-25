@@ -50,6 +50,12 @@ class Home extends MX_Controller
         redirect('home/show_login');
     }
 
+    public function setKoordinat()
+    {
+        $koordinat = $this->input->post('koordinat');
+        $_SESSION['koordinat'] = $koordinat;
+    }
+
     /*--------- Auth ----------*/
     public function login()
     {

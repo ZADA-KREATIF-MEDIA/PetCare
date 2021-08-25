@@ -43,6 +43,10 @@ class OrderModel extends CI_Model {
                 ->where('status =','keranjang');
         $query = $this->db->get_compiled_select();
         $transaksi  = $this->db->query($query)->row_array();
+        if($transaksi == "") {
+            $hasil['count_produk']          = 0;
+            return $hasil;
+        }
 
         $this->db->select('a.id, a.harga, a.jumlah, b.nama_produk, b.gambar')
                 ->from('detail_transaksi as a')
@@ -218,7 +222,6 @@ class OrderModel extends CI_Model {
 
     public function updateTransaksi($post)
     {
-        print('<pre>');print_r($post);exit();
         $this->db->select()
             ->from('transaksi')
             ->where("id", $post['id']);

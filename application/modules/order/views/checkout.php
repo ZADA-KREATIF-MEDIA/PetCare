@@ -41,10 +41,14 @@
                                         <button type="button" class="btn btn-primary" onclick="updateKeranjang(<?= $p['id']?>)">Edit</button>
                                         <a href="<?= base_url('/order/hapus/'.$p['id']) ?>" class="btn btn-danger">Hapus</a>
                                     </div>
-                                </div>    
+                                </div> 
                             <?php
                                 $total_produk += ($p['jumlah']*$p['harga']);
                                 endforeach;?>
+                            <div class="form-group col-12">
+                                <label for="catatan">Catatan</label>
+                                <textarea class="form-control" name="catatan" id="catatan" placeholder="Masukkan Catatan Order"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="card mt-3">
