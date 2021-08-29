@@ -21,7 +21,7 @@ DB/project-petcare.sql
 ```
 ### 3. Rubah Konfigurasi DB  **PetCare/application/config/database.php** , sesuaikan dengan server local anda
 
-### 4. Jalankan dengan menggunakan broser
+### 4. Jalankan dengan menggunakan browser
 ```
 localhost/petcare
 ```
