@@ -21,7 +21,7 @@ DB/project-petcare.sql
 ```
 ### 3. Rubah Konfigurasi DB  **PetCare/application/config/database.php**
 ```
-**$db['default'] = array(
+$db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => '127.0.0.1',
 	'username' => '(sesuaikan dengan komputer anda)',
