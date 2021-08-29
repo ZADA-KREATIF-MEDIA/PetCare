@@ -2,8 +2,6 @@
 PETCARE - CODEINGNITER
 ###################
 
-# Platform Undang Digital MD (www.maungabarin.com) 
-
 ## Cara Installasi
 
 ### platform di bangun menggunakan CI 3.X hal yang perlu di persiapkan adalah.
@@ -23,7 +21,7 @@ DB/project-petcare.sql
 ```
 ### 3. Rubah Konfigurasi DB  **PetCare/application/config/database.php**
 ```
-$db['default'] = array(
+**$db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => '127.0.0.1',
 	'username' => '(sesuaikan dengan komputer anda)',
@@ -45,25 +43,7 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 ```
-### 5. Jalankan *Development Server*
+### 4. Jalankan dengan menggunakan broser
 ```
-php spark serve
+localhost/petcare
 ```
-### 6. akses routing
-```
-* homepage : domain.com
-* admin : admin.com/login
-* undang : undangan.domain.com
-```
-### 7. Username
-* admin : admin@mail.com - pass :admin
-* customer : reydinda@gmail.com - pass :reydinda
-
-
-## TODO LIST
-- [-] Bug fix Pemesanan Undangan Customer
-- [-] Ganti Template
-- [-] Penambahan Fitur
-
-
-> Contributor sangat di harpakan membantu melengkapi readme guna dokumentasi ~ 19pnh33
