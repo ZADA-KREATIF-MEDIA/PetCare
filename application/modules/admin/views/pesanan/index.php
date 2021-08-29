@@ -4,12 +4,12 @@
             <h6 class="float-left font-weight-bold text-primary">Data <?= $title ?>&nbsp;&nbsp; - </h6>
             <h6 class="float-left font-weight-bold text-danger">&nbsp;&nbsp;Tanggal : <?= $tanggal ?> </h6>
             <!--button trigger-->
-            <a href="<?= base_url('admin/pesanan/create') ?>" class="btn btn-primary btn-icon-split btn-sm float-right disabled">
+            <!-- <a href="<?= base_url('admin/pesanan/create') ?>" class="btn btn-primary btn-icon-split btn-sm float-right disabled">
                 <span class="icon text-white">
                     <i class="fas fa-plus"></i>
                 </span>
                 <span class="text">Tambah</span>
-            </a>
+            </a> -->
             <!--end button trigger-->
         </div>
         <div class="card-body">
@@ -72,9 +72,7 @@
 
                                 </td>
                                 <td>
-                                    <!-- <a href="<?= base_url('admin/pesanan/detail/') . $data['id']; ?>" class="btn btn-primary btn-circle btn-sm" alt="edit">
-                                        <i class="fas fa-eye"></i>
-                                    </a> -->
+                                  
                                     <a href="<?= base_url('admin/pesanan/update/') . $data['id']; ?>" class="btn btn-warning btn-circle btn-sm" alt="edit">
                                         <i class="fas fa-book"></i>
                                     </a>
