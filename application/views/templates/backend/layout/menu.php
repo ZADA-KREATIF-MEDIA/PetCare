@@ -12,11 +12,11 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item <?= $this->uri->segment(2) == "dashboard" ? "active" : "" ?>">
+    <!-- <li class="nav-item <?= $this->uri->segment(2) == "dashboard" ? "active" : "" ?>">
       <a class="nav-link" href="<?= base_url('admin/dashboard') ?>">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
-    </li>
+    </li> -->
     <!-- Divider -->
     <hr class="sidebar-divider">
     <!-- Heading -->
@@ -63,6 +63,16 @@
         <i class="fas fa-fw fa-box"></i>
         <span>Admin</span></a>
     </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+      Keluar Program
+    </div>
+    <li class="nav-item <?= $this->uri->segment(2) == "admin" ? "active" : "" ?>">
+      <a class="nav-link" href="<?= base_url('admin/dashboard/logout') ?>">
+        <i class="fas fa-fw fa-box"></i>
+        <span>logout</span></a>
+    </li>
+    
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
       <button class="rounded-circle border-0" id="sidebarToggle"></button>
