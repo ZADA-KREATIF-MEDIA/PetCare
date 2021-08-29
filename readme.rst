@@ -4,7 +4,7 @@ PETCARE - CODEINGNITER
 
 ## Cara Installasi
 
-### platform di bangun menggunakan CI 3.X hal yang perlu di persiapkan adalah.
+#### platform di bangun menggunakan CI 3.X hal yang perlu di persiapkan adalah.
 
 * Webserver : XAMPP / LARAGON
 * Editor Text : Visual Code (Rekomendasi)
