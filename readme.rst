@@ -19,30 +19,8 @@ git clone https://github.com/ZADA-KREATIF-MEDIA/PetCare.git
 ```
 DB/project-petcare.sql
 ```
-### 3. Rubah Konfigurasi DB  **PetCare/application/config/database.php**
-```
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => '(sesuaikan dengan komputer anda)',
-	'password' => '(sesuaikan dengan komputer anda)',
-	'database' => 'project-petcare',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
-```
+### 3. Rubah Konfigurasi DB  **PetCare/application/config/database.php** , sesuaikan dengan server local anda
+
 ### 4. Jalankan dengan menggunakan broser
 ```
 localhost/petcare
