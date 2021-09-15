@@ -11,7 +11,11 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
+<<<<<<< HEAD
  Date: 25/08/2021 21:57:53
+=======
+ Date: 15/09/2021 16:51:32
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 */
 
 SET NAMES utf8mb4;
@@ -23,10 +27,17 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
+<<<<<<< HEAD
   `email` varchar(255) CHARACTER SET utf8mb4  NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 ROW_FORMAT = Dynamic;
+=======
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 
 -- ----------------------------
 -- Records of admin
@@ -43,12 +54,20 @@ CREATE TABLE `detail_transaksi`  (
   `id_transaksi` int(0) NULL DEFAULT NULL,
   `id_produk` int(0) NULL DEFAULT NULL,
   `harga` bigint(0) NULL DEFAULT NULL,
+<<<<<<< HEAD
   `catatan` text CHARACTER SET utf8mb4  NULL,
+=======
+  `catatan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+>>>>>>> 7d168a1... update 15-09-2021 21:18
   `jumlah` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `relasi_transaksi`(`id_transaksi`) USING BTREE,
   CONSTRAINT `relasi_transaksi` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+<<<<<<< HEAD
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4  ROW_FORMAT = Dynamic;
+=======
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 
 -- ----------------------------
 -- Records of detail_transaksi
@@ -66,9 +85,15 @@ INSERT INTO `detail_transaksi` VALUES (11, 14, 22, 57000, '', 1);
 DROP TABLE IF EXISTS `kategori`;
 CREATE TABLE `kategori`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
+<<<<<<< HEAD
   `nama` varchar(255) CHARACTER SET utf8mb4  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4  ROW_FORMAT = Dynamic;
+=======
+  `nama` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 
 -- ----------------------------
 -- Records of kategori
@@ -84,6 +109,7 @@ INSERT INTO `kategori` VALUES (12, 'VITAMIN & OBAT-OBATAN');
 DROP TABLE IF EXISTS `produk`;
 CREATE TABLE `produk`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
+<<<<<<< HEAD
   `nama_produk` varchar(255) CHARACTER SET utf8mb4 NULL DEFAULT NULL,
   `harga` bigint(0) NULL DEFAULT NULL,
   `gambar` varchar(255) CHARACTER SET utf8mb4 NULL DEFAULT 'default.jpg',
@@ -91,6 +117,15 @@ CREATE TABLE `produk`  (
   `stock` bigint(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4  ROW_FORMAT = Dynamic;
+=======
+  `nama_produk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `harga` bigint(0) NULL DEFAULT NULL,
+  `gambar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'default.jpg',
+  `id_kategori` int(0) NULL DEFAULT NULL,
+  `stock` bigint(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 
 -- ----------------------------
 -- Records of produk
@@ -110,12 +145,21 @@ INSERT INTO `produk` VALUES (29, 'PAKET GROOMING ANTAR JEMPUT', 75000, 'e4512640
 DROP TABLE IF EXISTS `tarif_ongkir`;
 CREATE TABLE `tarif_ongkir`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
+<<<<<<< HEAD
   `jarak_minimal` varchar(255) CHARACTER SET utf8mb4 NULL DEFAULT NULL,
   `harga_jarak_minimal` bigint(0) NULL DEFAULT NULL,
   `harga` bigint(0) NULL DEFAULT NULL,
   `status_jarak_minimal` enum('aktif','tidak') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'tidak',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 ROW_FORMAT = Dynamic;
+=======
+  `jarak_minimal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `harga_jarak_minimal` bigint(0) NULL DEFAULT NULL,
+  `harga` bigint(0) NULL DEFAULT NULL,
+  `status_jarak_minimal` enum('aktif','tidak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'tidak',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 
 -- ----------------------------
 -- Records of tarif_ongkir
@@ -129,6 +173,7 @@ DROP TABLE IF EXISTS `transaksi`;
 CREATE TABLE `transaksi`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `id_user` int(0) NULL DEFAULT NULL,
+<<<<<<< HEAD
   `koordinat_pengambilan` text CHARACTER SET utf8mb4  NULL,
   `alamat_pengambilan` longtext CHARACTER SET utf8mb4  NULL,
   `koordinat_pengantaran` text CHARACTER SET utf8mb4  NOT NULL,
@@ -140,6 +185,19 @@ CREATE TABLE `transaksi`  (
   `tanggal` varchar(255) CHARACTER SET utf8mb4  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4  ROW_FORMAT = Dynamic;
+=======
+  `koordinat_pengambilan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `alamat_pengambilan` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `koordinat_pengantaran` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `alamat_pengantaran` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `total_pembelian` bigint(0) NULL DEFAULT NULL,
+  `ongkir` bigint(0) NULL DEFAULT NULL,
+  `status` enum('selesai','proses','diantar','diambil','keranjang') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'proses',
+  `catatan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `tanggal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 
 -- ----------------------------
 -- Records of transaksi
@@ -158,6 +216,7 @@ INSERT INTO `transaksi` VALUES (14, 6, '-7.8243331,110.4284221', 'Jl. Wonosari N
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
+<<<<<<< HEAD
   `no_hp` varchar(255) CHARACTER SET utf8mb4 NULL DEFAULT NULL,
   `nama` varchar(255) CHARACTER SET utf8mb4 NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 NULL DEFAULT NULL,
@@ -165,6 +224,15 @@ CREATE TABLE `user`  (
   `alamat` longtext CHARACTER SET utf8mb4 NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 ROW_FORMAT = Dynamic;
+=======
+  `no_hp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `nama` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `koordinat_alamat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `alamat` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+>>>>>>> 7d168a1... update 15-09-2021 21:18
 
 -- ----------------------------
 -- Records of user

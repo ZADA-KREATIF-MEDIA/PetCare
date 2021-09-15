@@ -539,129 +539,129 @@
     <?php
     switch($this->uri->segment(2)) : 
         case "checkout":?>
-            $(document).ready(function(){
-                var geocoder = new google.maps.Geocoder();
-                let koordinatPengambilan    = '<?= $produk['koordinat_pengambilan'] ?>';
-                let koordinatPengantaran    = '<?= $produk['koordinat_pengantaran'] ?>';
-                let koordinatPetShop        = '-7.970549,110.5886896';
-                var directionsService = new google.maps.DirectionsService();
-                var directionsRenderer = new google.maps.DirectionsRenderer();
-                function convertToRupiah(angka) {
-                    var rupiah = '';
-                    var angkarev = angka.toString().split('').reverse().join('');
-                    for (var i = 0; i < angkarev.length; i++)
-                        if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
-                    return rupiah.split('', rupiah.length - 1).reverse().join('');
+        window.addEventListener('load', (event) => {
+            var geocoder = new google.maps.Geocoder();
+            let koordinatPengambilan    = '<?= $produk['koordinat_pengambilan'] ?>';
+            let koordinatPengantaran    = '<?= $produk['koordinat_pengantaran'] ?>';
+            let koordinatPetShop        = '-7.970549,110.5886896';
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            function convertToRupiah(angka) {
+                var rupiah = '';
+                var angkarev = angka.toString().split('').reverse().join('');
+                for (var i = 0; i < angkarev.length; i++)
+                    if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
+                return rupiah.split('', rupiah.length - 1).reverse().join('');
+            }
+            if(koordinatPengambilan == koordinatPengantaran) {
+                let request = {
+                    origin          : koordinatPetShop,
+                    destination     : koordinatPengambilan,
+                    travelMode      : 'DRIVING'
                 }
-                const updateKeranjang = (id) => {
-                    $.ajax({
-                        url     : '<?= base_url('order/showDetailKeranjang') ?>',
-                        method  : 'POST',
-                        data    : {id : id},
-                        success : function(res){
-                            let hasil = $.parseJSON(res);
-                            console.log(hasil);
-                            $('#id').val(hasil.id);
-                            $('#id_produk').val(hasil.id_produk);
-                            $('#inputPembelian').attr({"max" : hasil.stock}).val(hasil.jumlah);
-                            $('#catatan').text(hasil.catatan);
-                            $('#harga').val(hasil.harga);
-                            $('#jumlahSebelumnya').val(hasil.jumlah);
-                            $('#editKeranjang').modal('show');
-                        }
-                    });
-                }
-                if(koordinatPengambilan == koordinatPengantaran) {
-                    let request = {
-                        origin          : koordinatPetShop,
-                        destination     : koordinatPengambilan,
-                        travelMode      : 'DRIVING'
+                // console.log(request);
+                directionsService.route(request, function(response, status) {
+                    if ( status == google.maps.DirectionsStatus.OK ) {
+                        jarak =  response.routes[0].legs[0].distance.text;
+                        $.ajax({
+                            url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
+                            method  : 'POST',
+                            data    : { jarak : jarak},
+                            success : function(res){
+                                let hasil = $.parseJSON(res);
+                                $('#jarakOngkir').text(hasil.jarak);
+                                $('#biayajarakOngkir').text(hasil.harga_txt);
+                                $('#valueBiayajarakOngkir').val(hasil.harga);
+                            }
+                        }); 
                     }
-                    // console.log(request);
-                    directionsService.route(request, function(response, status) {
-                        if ( status == google.maps.DirectionsStatus.OK ) {
-                            jarak =  response.routes[0].legs[0].distance.text;
-                            $.ajax({
-                                url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
-                                method  : 'POST',
-                                data    : { jarak : jarak},
-                                success : function(res){
-                                    let hasil = $.parseJSON(res);
-                                    $('#jarakOngkir').text(hasil.jarak);
-                                    $('#biayajarakOngkir').text(hasil.harga_txt);
-                                    $('#valueBiayajarakOngkir').val(hasil.harga);
-                                }
-                            }); 
-                        }
-                        const hitungTotal = () => {
-                            let a = parseInt($('#valueBiayajarakOngkir').val());
-                            let subTotal = parseInt($('#valueSubtotalProduk').val());
-                            let total = a+subTotal;
-                            $('#totalBelanja').text(convertToRupiah(total));
-                            $('#valueTotalBelanja').val(total);
-                        }
-                        hitungTotal();
-                    });
-                } else {
-                    var jarak1;
-                    var jarak2;
-                    let request1 = {
-                        origin          : koordinatPetShop,
-                        destination     : koordinatPengambilan,
-                        travelMode      : 'DRIVING'
-                    }
-    
-                    let request2 = {
-                        origin          : koordinatPetShop,
-                        destination     : koordinatPengantaran,
-                        travelMode      : 'DRIVING'
-                    }
-    
-                    directionsService.route(request1, function(response, status) {
-                        if ( status == google.maps.DirectionsStatus.OK ) {
-                            jarak1 =  response.routes[0].legs[0].distance.text; 
-                            $.ajax({
-                                url     : '<?= base_url('order/hitung_harga_pengambilan') ?>',
-                                method  : 'POST',
-                                data    : { jarak : jarak1},
-                                success : function(res){
-                                    let hasil = $.parseJSON(res);
-                                    $('#jarakPengambilan').text(hasil.jarak);
-                                    $('#valueBiayaOngkirPengambilan').val(hasil.harga);
-                                    $('#biayaOngkirPengambilan').text(hasil.harga_txt);
-                                }
-                            });
-                        }
-                    });
-    
-                    directionsService.route(request2, function(response, status) {
-                        if ( status == google.maps.DirectionsStatus.OK ) {
-                            jarak2 =  response.routes[0].legs[0].distance.text;
-                            $.ajax({
-                                url     : '<?= base_url('order/hitung_harga_pengantaran') ?>',
-                                method  : 'POST',
-                                data    : { jarak : jarak2},
-                                success : function(res){
-                                    let hasil = $.parseJSON(res);
-                                    $('#jarakPengantaran').text(hasil.jarak);
-                                    $('#valueBiayaOngkirPengantaran').val(hasil.harga);
-                                    $('#biayaOngkirPengantaran').text(hasil.harga_txt);
-                                }
-                            }); 
-                        }
-                    });
-    
                     const hitungTotal = () => {
-                        let a = parseInt($('#valueBiayaOngkirPengambilan').val());
-                        let b = parseInt($('#valueBiayaOngkirPengantaran').val());
+                        let a = parseInt($('#valueBiayajarakOngkir').val());
                         let subTotal = parseInt($('#valueSubtotalProduk').val());
-                        let total = a+b+subTotal;
+                        let total = a+subTotal;
                         $('#totalBelanja').text(convertToRupiah(total));
                         $('#valueTotalBelanja').val(total);
                     }
                     hitungTotal();
+                });
+            } else {
+                var jarak1;
+                var jarak2;
+                let request1 = {
+                    origin          : koordinatPetShop,
+                    destination     : koordinatPengambilan,
+                    travelMode      : 'DRIVING'
+                }
+    
+                let request2 = {
+                    origin          : koordinatPetShop,
+                    destination     : koordinatPengantaran,
+                    travelMode      : 'DRIVING'
+                }
+    
+                directionsService.route(request1, function(response, status) {
+                    if ( status == google.maps.DirectionsStatus.OK ) {
+                        jarak1 =  response.routes[0].legs[0].distance.text; 
+                        $.ajax({
+                            url     : '<?= base_url('order/hitung_harga_pengambilan') ?>',
+                            method  : 'POST',
+                            data    : { jarak : jarak1},
+                            success : function(res){
+                                let hasil = $.parseJSON(res);
+                                $('#jarakPengambilan').text(hasil.jarak);
+                                $('#valueBiayaOngkirPengambilan').val(hasil.harga);
+                                $('#biayaOngkirPengambilan').text(hasil.harga_txt);
+                            }
+                        });
+                    }
+                });
+    
+                directionsService.route(request2, function(response, status) {
+                    if ( status == google.maps.DirectionsStatus.OK ) {
+                        jarak2 =  response.routes[0].legs[0].distance.text;
+                        $.ajax({
+                            url     : '<?= base_url('order/hitung_harga_pengantaran') ?>',
+                            method  : 'POST',
+                            data    : { jarak : jarak2},
+                            success : function(res){
+                                let hasil = $.parseJSON(res);
+                                $('#jarakPengantaran').text(hasil.jarak);
+                                $('#valueBiayaOngkirPengantaran').val(hasil.harga);
+                                $('#biayaOngkirPengantaran').text(hasil.harga_txt);
+                            }
+                        }); 
+                    }
+                });
+    
+                const hitungTotal = () => {
+                    let a = parseInt($('#valueBiayaOngkirPengambilan').val());
+                    let b = parseInt($('#valueBiayaOngkirPengantaran').val());
+                    let subTotal = parseInt($('#valueSubtotalProduk').val());
+                    let total = a+b+subTotal;
+                    $('#totalBelanja').text(convertToRupiah(total));
+                    $('#valueTotalBelanja').val(total);
+                }
+                hitungTotal();
+            }
+        });
+        const updateKeranjang = (id) => {
+            $.ajax({
+                url     : '<?= base_url('order/showDetailKeranjang') ?>',
+                method  : 'POST',
+                data    : {id : id},
+                success : function(res){
+                    let hasil = $.parseJSON(res);
+                    console.log(hasil);
+                    $('#id').val(hasil.id);
+                    $('#id_produk').val(hasil.id_produk);
+                    $('#inputPembelian').attr({"max" : hasil.stock}).val(hasil.jumlah);
+                    $('#catatan').text(hasil.catatan);
+                    $('#harga').val(hasil.harga);
+                    $('#jumlahSebelumnya').val(hasil.jumlah);
+                    $('#editKeranjang').modal('show');
                 }
             });
+        }
         <?php break;
         case "transaksi":
         ?>
