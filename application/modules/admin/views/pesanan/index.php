@@ -18,13 +18,11 @@
                     <thead class="bg-dark text-white">
                         <tr>
                             <th>No.</th>
+                            <th>KODE UNIQ</th>
                             <th width="130px">ID USER - NAMA</th>
                             <th width="150px">ALAMAT PICK-UP</th>
-                            <!-- <th>PICK-UP KOORDINAT</th>
-                            <th>DELIVERY KOORDINAT</th>-->
                             <th width="150px">TOTAL PEMBELIAN</th> 
                             <th>ONGKIR</th>
-                            <th>CATATAN</th>
                             <th>STATUS</th>
                             <th>AKSI</th>
                         </tr>
@@ -32,13 +30,11 @@
                     <tfoot>
                         <tr>
                             <th>No.</th>
+                            <th>KODE UNIQ</th>
                             <th>ID USER - NAMA</th>
                             <th>ALAMAT PICK-UP</th>
-                            <!-- <th>PICK-UP KOORDINAT</th>
-                            <th>DELIVERY KOORDINAT</th> -->
                             <th>TOTAL PEMBELIAN</th>
                             <th>ONGKIR</th>
-                            <th>CATATAN</th>
                             <th>STATUS</th>
                             <th>AKSI</th>
                         </tr>
@@ -50,13 +46,13 @@
                         ?>
                             <tr>
                                 <td><?php echo $nomor++; ?></td>
+                                <td><?= $data['kode_uniq']; ?></td>
                                 <td><?= $data['nama'] ?></td>
                                 <td><?= $data['alamat_pengambilan'] ?></td>
                                 <!-- <td><?= $data['koordinat_pengambilan'] ?></td>
                                 <td><?= $data['koordinat_pengantaran'] ?></td> -->
                                 <td>Rp. <?= number_format($data['total_pembelian']); ?></td>
                                 <td>Rp. <?= number_format($data['ongkir']); ?></td>
-                                <td><?= $data['catatan'] ?></td>
                                 <td>
                                     <?php
                                     if ($data['status'] == 'proses') {
@@ -72,7 +68,6 @@
 
                                 </td>
                                 <td>
-                                  
                                     <a href="<?= base_url('admin/pesanan/update/') . $data['id']; ?>" class="btn btn-warning btn-circle btn-sm" alt="edit">
                                         <i class="fas fa-book"></i>
                                     </a>

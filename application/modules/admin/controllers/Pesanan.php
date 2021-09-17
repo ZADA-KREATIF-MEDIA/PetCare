@@ -11,6 +11,7 @@ class Pesanan extends MX_Controller
     }
     public function index()
     {
+
         $data['tanggal'] = date('d-m-Y');
         $data['title'] = "pesanan";
         $data['pesanan'] = $this->mod->getAllJoin(); //ambil data pesanan dan model yang berelasi 
@@ -41,6 +42,7 @@ class Pesanan extends MX_Controller
     }
     public function delete($id)
     {
+        $this->mod->restoreTransaksi($id);
         $this->mod->delete($id);
         redirect(site_url('admin/pesanan/index'));
     }

@@ -28,6 +28,8 @@
                         </div>
                     </div>
                     <div class="card-body">
+                    <span class="text-danger mb-2 font-weight-bold">*3 digit angka terakhir merupakan kode uniq untuk memverifikasi transaksi, pastikan lakukan pembayaran sesuai nominal yang tertera</span>
+                    <hr>
                         <div class="row mb-3">
                             <div class="col-sm-12 col-md-6 mb-2">
                                 <h5 class="card-title">Alamat Pengantaran</h5>
@@ -39,7 +41,7 @@
                             </div>
                         </div>
                         <button type="button" class="btn btn-info btn-sm rounded" onclick="detailTransaksi(<?= $t['id'] ?>)">Detail</button>
-                        <a class="btn btn-outline-success btn-sm" target="_blank" href="https://wa.me/+6282293321335?text=Halo Saya Ingin Mengkonfirmasi pembayaran dengan kode transaksi <?= $t['id']?> tanggal <?= $t['tanggal'] ?>"><i class="fab fa-whatsapp"></i>&nbsp;Konfirmasi pembayaran</a>
+                        <a class="btn btn-outline-success btn-sm" target="_blank" href="https://wa.me/+6282293321335?text=Halo Saya Ingin Mengkonfirmasi pembayaran dengan kode transaksi <?= $t['kode_uniq']?> tanggal transaksi <?= $t['tanggal'] ?>"><i class="fab fa-whatsapp"></i>&nbsp;Konfirmasi pembayaran</a>
                     </div>
                 </div>
             <?php endforeach; ?>

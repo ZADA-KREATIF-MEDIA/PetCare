@@ -229,37 +229,6 @@ class OrderModel extends CI_Model {
         $this->db->query($query);
         return true;	
     }
-    /*----- old ------*/
-    private function _uploadImage($nama_rider,$id_order,$status_order)
-    {
-
-        $nama_file                      = str_replace(" ","",strtolower($nama_rider)).time().$id_order;
-        if($status_order=="proses"){
-            $config['upload_path']          = './assets/frontend/img/foto_ambil/';
-        }else{
-            $config['upload_path']          = './assets/frontend/img/foto_antar/';
-        }
-        $config['allowed_types']        = 'jpeg|jpg|png';
-        $config['file_name']            = $nama_file;
-        $config['overwrite']			= true;
-        // $config['max_size']             = 2048; // 1MB
-        // $config['max_width']            = 1024;
-        // $config['max_height']           = 768;
-
-        $this->load->library('upload', $config);
-
-        if($status_order=="proses"){
-            if ($this->upload->do_upload('foto_ambil')) {
-                return $this->upload->data("file_name");
-            }
-        }else{
-            if ($this->upload->do_upload('foto_antar')) {
-                return $this->upload->data("file_name");
-            }
-        }
-        
-        return "profile.png";
-    }
 
     public function m_save_daftar($post)
     {
