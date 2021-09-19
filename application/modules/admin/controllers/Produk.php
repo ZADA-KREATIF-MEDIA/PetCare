@@ -56,16 +56,12 @@ class Produk extends MX_Controller
         $config['upload_path']          = './assets/gambar_produk/';
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $this->load->library('upload', $config);
-        if ($this->input->post('id_kategori') == null) {
+        if(empty($_FILES['gambar']['name'])){
             $data['nama_produk'] = $this->input->post('nama_produk');
             $data['id_kategori'] = $this->input->post('id_kategori');
             $data['harga'] = $this->input->post('harga');
             $data['stock'] = $this->input->post('stock');
-            echo "Error disni ";
-            $this->mod->update($data, $id);
-            redirect('admin/produk/index');
         } else {
-
             $file = $this->upload->data();
             $file_names = $file['raw_name'] . $file['file_ext'];
             $data = array('gambar' => $this->upload->data());
@@ -74,11 +70,9 @@ class Produk extends MX_Controller
             $data['gambar'] = $file_names;
             $data['harga'] = $this->input->post('harga');
             $data['stock'] = $this->input->post('stock');
-            $this->mod->update($data, $id);
-            echo "erro disini ";
-            redirect('admin/produk/index');
-
         }
+        $this->mod->update($data, $id);
+        redirect('admin/produk/index');
     }
     public function delete($id)
     {

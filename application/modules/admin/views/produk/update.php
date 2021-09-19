@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group">
                         <label><strong>Kategori Produk : </strong></label>
-                        <select class="form-control" name="id_kategori">
+                        <select class="form-control" name="id_kategori" required>
                             <option>-- Pilih Kategori Produk --</option>
                             <?php foreach ($kategori as $data) { ?>
                                 <option value="<?= $data['id'] ?>" <?php if ($data['id'] == $produk->id_kategori) echo 'selected="selected"'; ?>> <?= $data['nama'] ?></option>
