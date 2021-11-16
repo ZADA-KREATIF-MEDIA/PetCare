@@ -171,7 +171,7 @@ class Order extends MX_Controller
         $dt_ongkir  = $this->mod->getOngkir();
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
                 $hitung = round(($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']))*2);
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
@@ -185,7 +185,7 @@ class Order extends MX_Controller
             }
         } else {
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
                 $hitung = round(($jarak[0] * $dt_ongkir['harga'])*2);
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
@@ -208,7 +208,7 @@ class Order extends MX_Controller
         $dt_ongkir  = $this->mod->getOngkir();
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
                 $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
@@ -222,7 +222,7 @@ class Order extends MX_Controller
             }
         } else {
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
                 $hitung = round($jarak[0] * $dt_ongkir['harga']);
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
@@ -245,7 +245,7 @@ class Order extends MX_Controller
         $dt_ongkir  = $this->mod->getOngkir();
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
                 $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
@@ -259,7 +259,7 @@ class Order extends MX_Controller
             }
         } else {
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = $jarak[0] - 5;
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
                 $hitung = round($jarak[0] * $dt_ongkir['harga']);
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;

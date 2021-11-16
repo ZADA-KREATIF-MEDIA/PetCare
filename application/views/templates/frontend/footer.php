@@ -82,7 +82,7 @@
 <!-- Template Main JS File -->
 <script src="<?= base_url() ?>assets/frontend/js/main.js"></script>
 <?php if($this->uri->segment(1) == "alamat_pengambilan" || $this->uri->segment(1) == "alamat_pengantaran" || $this->uri->segment(2) == "daftar" || $this->uri->segment(2) == "checkout"):?>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC-qlg8MsyURHrlu-NcS1wbMF278nxAnJY&sensor=false"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC-qlg8MsyURHrlu-NcS1wbMF278nxAnJY"></script>
 <?php endif;?>
 <script>
     <?php if($this->uri->segment(1) == ""):?>
@@ -537,7 +537,7 @@
         google.maps.event.addDomListener(window, 'load', initialize);
     <?php endif;?>
     <?php
-    switch($this->uri->segment(2)) : 
+    switch($this->uri->segment(1)) : 
         case "checkout":?>
         window.addEventListener('load', (event) => {
             var geocoder = new google.maps.Geocoder();
@@ -562,7 +562,7 @@
                 // console.log(request);
                 directionsService.route(request, function(response, status) {
                     if ( status == google.maps.DirectionsStatus.OK ) {
-                        jarak =  response.routes[0].legs[0].distance.text;
+                        let jarak =  response.routes[0].legs[0].distance.text;
                         $.ajax({
                             url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
                             method  : 'POST',
