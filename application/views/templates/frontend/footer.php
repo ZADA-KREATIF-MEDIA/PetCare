@@ -336,7 +336,88 @@
                     method      : 'POST',
                     data        : {id : id},
                     success     : function(res){
-                        console.log(res);
+                        let hasil = $.parseJSON(res);
+                        $('#judulBarang').text('Pembelian'+hasil.nama_produk);
+                        $('#inputPembelian').attr({"max" : hasil.stock});
+                        $('#id_produk').val(hasil.id);
+                        $('#harga').val(hasil.harga);
+                    }
+                });
+                $('#beliModal').modal('show');
+            }
+        <?php break;?>
+        <?php case "checkout":?>
+            $('#order').addClass('active');
+            $('.btn-number').click(function(e){
+                e.preventDefault();
+                fieldName = $(this).attr('data-field');
+                type      = $(this).attr('data-type');
+                var input = $("input[name='"+fieldName+"']");
+                var currentVal = parseInt(input.val());
+                if (!isNaN(currentVal)) {
+                    if(type == 'minus') {                
+                        if(currentVal > input.attr('min')) {
+                            input.val(currentVal - 1).change();
+                        } 
+                        if(parseInt(input.val()) == input.attr('min')) {
+                            $(this).attr('disabled', true);
+                        }
+
+                    } else if(type == 'plus') {
+
+                        if(currentVal < input.attr('max')) {
+                            input.val(currentVal + 1).change();
+                        }
+                        if(parseInt(input.val()) == input.attr('max')) {
+                            $(this).attr('disabled', true);
+                        }
+
+                    }
+                } else {
+                    input.val(0);
+                }
+            });
+            $('.input-number').focusin(function(){
+                $(this).data('oldValue', $(this).val());
+            });
+            $('.input-number').change(function() {
+                minValue =  parseInt($(this).attr('min'));
+                maxValue =  parseInt($(this).attr('max'));
+                valueCurrent = parseInt($(this).val());
+                name = $(this).attr('name');
+                if(valueCurrent >= minValue) {
+                    $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+                } else {
+                    alert('Sorry, the minimum value was reached');
+                    $(this).val($(this).data('oldValue'));
+                }
+                if(valueCurrent <= maxValue) {
+                    $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+                } else {
+                    alert('Sorry, the maximum value was reached');
+                    $(this).val($(this).data('oldValue'));
+                }
+            });
+            $(".input-number").keydown(function (e) {
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+                    // Allow: Ctrl+A
+                    (e.keyCode == 65 && e.ctrlKey === true) || 
+                    // Allow: home, end, left, right
+                    (e.keyCode >= 35 && e.keyCode <= 39)) {
+                        // let it happen, don't do anything
+                        return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+            beli = (id) => {
+                $.ajax({
+                    url         : '<?= base_url('order/show') ?>',
+                    method      : 'POST',
+                    data        : {id : id},
+                    success     : function(res){
                         let hasil = $.parseJSON(res);
                         $('#judulBarang').text('Pembelian'+hasil.nama_produk);
                         $('#inputPembelian').attr({"max" : hasil.stock});
@@ -536,7 +617,7 @@
         // event jendela di-load  
         google.maps.event.addDomListener(window, 'load', initialize);
     <?php endif;?>
-    <?php
+   <?php
     switch($this->uri->segment(1)) : 
         case "checkout":?>
         window.addEventListener('load', (event) => {
@@ -559,10 +640,9 @@
                     destination     : koordinatPengambilan,
                     travelMode      : 'DRIVING'
                 }
-                // console.log(request);
                 directionsService.route(request, function(response, status) {
                     if ( status == google.maps.DirectionsStatus.OK ) {
-                        let jarak =  response.routes[0].legs[0].distance.text;
+                       let jarak =  response.routes[0].legs[0].distance.text;
                         $.ajax({
                             url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
                             method  : 'POST',
@@ -651,7 +731,6 @@
                 data    : {id : id},
                 success : function(res){
                     let hasil = $.parseJSON(res);
-                    console.log(hasil);
                     $('#id').val(hasil.id);
                     $('#id_produk').val(hasil.id_produk);
                     $('#inputPembelian').attr({"max" : hasil.stock}).val(hasil.jumlah);
@@ -675,7 +754,6 @@
                         $('#detailTransaksi').empty();
                         let html = '';
                         $.each(hasil, function(index,value){
-                            console.log(value)
                             html += `
                             <div class="mb-3">
                                 <h5>${value.nama_barang} | ${value.kategori}</h5>
@@ -715,10 +793,9 @@
                     destination     : koordinatPengambilan,
                     travelMode      : 'DRIVING'
                 }
-                // console.log(request);
                 directionsService.route(request, function(response, status) {
                     if ( status == google.maps.DirectionsStatus.OK ) {
-                        let jarak =  response.routes[0].legs[0].distance.text;
+                       let jarak =  response.routes[0].legs[0].distance.text;
                         $.ajax({
                             url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
                             method  : 'POST',
@@ -807,7 +884,6 @@
                 data    : {id : id},
                 success : function(res){
                     let hasil = $.parseJSON(res);
-                    console.log(hasil);
                     $('#id').val(hasil.id);
                     $('#id_produk').val(hasil.id_produk);
                     $('#inputPembelian').attr({"max" : hasil.stock}).val(hasil.jumlah);
@@ -831,7 +907,6 @@
                         $('#detailTransaksi').empty();
                         let html = '';
                         $.each(hasil, function(index,value){
-                            console.log(value)
                             html += `
                             <div class="mb-3">
                                 <h5>${value.nama_barang} | ${value.kategori}</h5>
