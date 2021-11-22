@@ -48,7 +48,7 @@ class OrderModel extends CI_Model {
             return $hasil;
         }
 
-        $this->db->select('a.id, a.harga, a.jumlah, b.nama_produk, b.gambar')
+        $this->db->select('a.id, a.harga, a.jumlah,a.catatan, b.nama_produk, b.gambar')
                 ->from('detail_transaksi as a')
                 ->join('produk as b','a.id_produk = b.id','left')
                 ->where('id_transaksi',$transaksi['id']);
@@ -67,6 +67,7 @@ class OrderModel extends CI_Model {
             $hasil['produk'][$i]['jumlah'] = $p['jumlah'];
             $hasil['produk'][$i]['nama_produk'] = $p['nama_produk'];
             $hasil['produk'][$i]['gambar'] = $p['gambar'];
+            $hasil['produk'][$i]['catatan'] = $p['catatan'];
             $i++;
         }
         return $hasil;
@@ -113,7 +114,7 @@ class OrderModel extends CI_Model {
                 ->where('a.status','keranjang');
         $query = $this->db->get_compiled_select();
         $data_keranjang  = $this->db->query($query)->row_array();
-       
+    
         $stock_update = $data_produk['stock'] - $post['jumlah'];
         if($data_keranjang != ""){
             $insert_id = $data_keranjang['id'];
@@ -140,6 +141,7 @@ class OrderModel extends CI_Model {
             'id'        => $post['id_produk'],
             'stock'     => $stock_update 
         ];
+        // print('<pre>');print_r($detail_transaksi);exit();
         $this->db->insert('detail_transaksi',$detail_transaksi);
         $this->db->select()
             ->from('produk')

@@ -40,6 +40,14 @@
                                 <p class="card-text"><?= $t['alamat_pengambilan'] ?></p>
                             </div>
                         </div>
+                        <h6>Catatan order:</h6>
+                        <p>
+                            <?php if($t['catatan'] != ""){
+                                echo $t['catatan'];
+                            } else {
+                                echo "-";
+                            }?>
+                        </p>
                         <button type="button" class="btn btn-info btn-sm rounded" onclick="detailTransaksi(<?= $t['id'] ?>)">Detail</button>
                         <a class="btn btn-outline-success btn-sm" target="_blank" href="https://wa.me/+6282293321335?text=Halo Saya Ingin Mengkonfirmasi pembayaran dengan kode transaksi <?= $t['kode_uniq']?> tanggal transaksi <?= $t['tanggal'] ?>"><i class="fab fa-whatsapp"></i>&nbsp;Konfirmasi pembayaran</a>
                     </div>

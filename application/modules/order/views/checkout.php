@@ -39,6 +39,8 @@
                                         <div class="col-8">
                                             <h5 class="card-title"><?= $p['nama_produk']?></h5>
                                             <p class="card-text"><?= $p['jumlah'].' x '.number_format($p['harga'],0,',','.')?>&nbsp;=&nbsp;<?= number_format($p['harga']*$p['jumlah'],0,',','.')?></p>
+                                            <h6>Catatan Produk:</h6>
+                                            <p class="text-truncate"><?= $p['catatan']?></p>
                                             <button type="button" class="btn btn-primary" onclick="updateKeranjang(<?= $p['id']?>)">Edit</button>
                                             <a href="<?= base_url('/order/hapus/'.$p['id']) ?>" class="btn btn-danger">Hapus</a>
                                         </div>
@@ -47,7 +49,7 @@
                                     $total_produk += ($p['jumlah']*$p['harga']);
                                     endforeach;?>
                                 <div class="form-group col-12">
-                                    <label for="catatan">Catatan</label>
+                                    <label for="catatan">Catatan Order</label>
                                     <textarea class="form-control" name="catatan" id="catatan" placeholder="Masukkan Catatan Order"></textarea>
                                 </div>
                             </div>
@@ -143,8 +145,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="catatan">Catatan</label>
-                            <textarea name="catatan" id="catatan" class="form-control"></textarea>
+                            <label for="catatan">Catatan Produk</label>
+                            <textarea name="catatan" id="catatanProduk" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

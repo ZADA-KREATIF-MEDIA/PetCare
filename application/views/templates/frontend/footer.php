@@ -81,7 +81,7 @@
 
 <!-- Template Main JS File -->
 <script src="<?= base_url() ?>assets/frontend/js/main.js"></script>
-<?php if($this->uri->segment(1) == "alamat_pengambilan" || $this->uri->segment(1) == "alamat_pengantaran" || $this->uri->segment(2) == "daftar" || $this->uri->segment(2) == "checkout"):?>
+<?php if($this->uri->segment(1) == "alamat_pengambilan" || $this->uri->segment(1) == "alamat_pengantaran" || $this->uri->segment(2) == "daftar" || $this->uri->segment(2) == "checkout" || $this->uri->segment(1) == "checkout"):?>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC-qlg8MsyURHrlu-NcS1wbMF278nxAnJY"></script>
 <?php endif;?>
 <script>
@@ -734,7 +734,7 @@
                     $('#id').val(hasil.id);
                     $('#id_produk').val(hasil.id_produk);
                     $('#inputPembelian').attr({"max" : hasil.stock}).val(hasil.jumlah);
-                    $('#catatan').text(hasil.catatan);
+                    $('#catatanProduk').text(hasil.catatan);
                     $('#harga').val(hasil.harga);
                     $('#jumlahSebelumnya').val(hasil.jumlah);
                     $('#editKeranjang').modal('show');
@@ -758,7 +758,7 @@
                             <div class="mb-3">
                                 <h5>${value.nama_barang} | ${value.kategori}</h5>
                                 <span class="d-block">@${value.harga}x${value.jumlah} = ${value.total_harga}</span>
-                                <span>Catatan:</span>
+                                <span>Catatan Produk:</span>
                                 <span>${value.catatan}</span>
                             </div>
                             `;
@@ -887,7 +887,7 @@
                     $('#id').val(hasil.id);
                     $('#id_produk').val(hasil.id_produk);
                     $('#inputPembelian').attr({"max" : hasil.stock}).val(hasil.jumlah);
-                    $('#catatan').text(hasil.catatan);
+                    $('#catatanProduk').text(hasil.catatan);
                     $('#harga').val(hasil.harga);
                     $('#jumlahSebelumnya').val(hasil.jumlah);
                     $('#editKeranjang').modal('show');
@@ -911,7 +911,7 @@
                             <div class="mb-3">
                                 <h5>${value.nama_barang} | ${value.kategori}</h5>
                                 <span class="d-block">@${value.harga}x${value.jumlah} = ${value.total_harga}</span>
-                                <span>Catatan:</span>
+                                <span>Catatan Produk:</span>
                                 <span>${value.catatan}</span>
                             </div>
                             `;

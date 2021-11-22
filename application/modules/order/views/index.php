@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="catatan">Catatn</label>
+                        <label for="catatan">Catatan</label>
                         <textarea name="catatan" id="catatan" class="form-control"></textarea>
                     </div>
                 </div>
