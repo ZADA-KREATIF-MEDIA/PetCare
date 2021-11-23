@@ -284,16 +284,28 @@ class OrderModel extends CI_Model {
                 ->where('a.id_transaksi', $id);
         $query = $this->db->get_compiled_select();
         $data  = $this->db->query($query)->result_array();
+        $this->db->select()
+                ->from('transaksi')
+                ->where('id',$id);
+        $query2 = $this->db->get_compiled_select();
+        $data2  = $this->db->query($query2)->row_array();
+        
         $i = 0;
+        $subtotal = 0;
         foreach ($data as $d){
-            $hasil[$i]['nama_barang']   = $d['nama_produk'];
-            $hasil[$i]['harga']         = number_format($d['harga'],0,',','.');
-            $hasil[$i]['total_harga']   = number_format($d['total_harga'] * $d['jumlah'],0,',','.'); 
-            $hasil[$i]['catatan']       = $d['catatan']; 
-            $hasil[$i]['jumlah']        = $d['jumlah']; 
-            $hasil[$i]['kategori']      = $d['nama']; 
+            $hasil['detail'][$i]['nama_barang']   = $d['nama_produk'];
+            $hasil['detail'][$i]['harga']         = number_format($d['harga'],0,',','.');
+            $hasil['detail'][$i]['total_harga']   = number_format($d['total_harga'] * $d['jumlah'],0,',','.'); 
+            $hasil['detail'][$i]['catatan']       = $d['catatan']; 
+            $hasil['detail'][$i]['jumlah']        = $d['jumlah']; 
+            $hasil['detail'][$i]['kategori']      = $d['nama']; 
+            $subtotal += $d['jumlah'] * $d['total_harga'];
             $i++;
         }
+        $hasil['ongkir']    = number_format($data2['ongkir'],0,',','.');
+        $hasil['subtotal']  = number_format($subtotal,0,',','.');
+        $hasil['total']     = number_format($data2['total_pembelian'],0,',','.');
+        
         return $hasil;
     }
 }

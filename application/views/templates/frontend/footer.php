@@ -753,7 +753,7 @@
                         let hasil = $.parseJSON(res);
                         $('#detailTransaksi').empty();
                         let html = '';
-                        $.each(hasil, function(index,value){
+                        $.each(hasil.detail, function(index,value){
                             html += `
                             <div class="mb-3">
                                 <h5>${value.nama_barang} | ${value.kategori}</h5>
@@ -763,6 +763,15 @@
                             </div>
                             `;
                         });
+                        html += `
+                            <hr/>
+                            <span>Subtotal: ${hasil.subtotal}</span><br/>`
+                            if(hasil.ongkir != "") {
+                        html +=        `<span>Ongkir: ${hasil.subtotal}</span>`
+                            } else {
+                        html +=        `<span>Ongkir: - </span>`
+                            }
+                        html += `<h6>Total: ${hasil.total}</h6>`
                         $('#detailTransaksi').append(html);
                         $('#detailTransaksiModal').modal('show');
                     } 
@@ -906,7 +915,7 @@
                         let hasil = $.parseJSON(res);
                         $('#detailTransaksi').empty();
                         let html = '';
-                        $.each(hasil, function(index,value){
+                        $.each(hasil.detail, function(index,value){
                             html += `
                             <div class="mb-3">
                                 <h5>${value.nama_barang} | ${value.kategori}</h5>
@@ -916,6 +925,15 @@
                             </div>
                             `;
                         });
+                        html += `
+                            <hr/>
+                            <span>Subtotal: ${hasil.subtotal}</span><br/>`
+                            if(hasil.ongkir != "") {
+                        html +=        `<span>Ongkir: ${hasil.subtotal}</span>`
+                            } else {
+                        html +=        `<span>Ongkir: - </span>`
+                            }
+                        html += `<h6>Total: ${hasil.total}</h6>`
                         $('#detailTransaksi').append(html);
                         $('#detailTransaksiModal').modal('show');
                     } 
