@@ -3,6 +3,12 @@
 class OrderModel extends CI_Model {
     protected $table    = 'transaksi';
     
+
+    public static function get_keranjang_status_keranjang()
+    {
+        
+    }
+
     public function getAllProduk()
     {
         $this->db->select('a.id,a.nama_produk,a.harga,a.gambar,a.stock, b.nama')
@@ -33,6 +39,26 @@ class OrderModel extends CI_Model {
         $query = $this->db->get_compiled_select();
         $data  = $this->db->query($query)->result_array();
         return $data;
+    }
+
+    public function cekJenisBelanjaan()
+    {
+        $this->db->select()
+                ->from('transaksi')
+                ->where('id_user', $this->session->userdata('user_id'))
+                ->where('status','keranjang');
+        $query = $this->db->get_compiled_select();
+        $keranjang = $this->db->query($query)->row_array();
+
+        $this->db->select('b.nama_produk,c.nama')
+            ->from('detail_transaksi AS a')
+            ->join('produk AS b','a.id_produk = b.id','left')
+            ->join('kategori AS c','b.id_kategori = c.id','left')
+            ->where('c.id',9)
+            ->where('a.id_transaksi',$keranjang['id']);
+        $query2 = $this->db->get_compiled_select();
+        $barang = $this->db->query($query2)->num_rows();
+        return $barang;
     }
 
     public function getAllKeranjang()

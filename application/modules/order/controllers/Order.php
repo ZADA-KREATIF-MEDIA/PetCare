@@ -68,10 +68,13 @@ class Order extends MX_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Harap melakukan transaksi terlebih dahulu</div>');
             redirect('order');
         }
+        $cek_jenis_belanjaan = $this->mod->cekJenisBelanjaan();
+
         $data = [
             'title'     => 'Checkout',
             'content'   => 'order/checkout',
-            'produk'    => $this->mod->getAllKeranjang()
+            'produk'    => $this->mod->getAllKeranjang(),
+            'jumlah_layanan' => $cek_jenis_belanjaan
         ];
         $this->load->view('templates/frontend/index',$data);
     }
@@ -274,6 +277,13 @@ class Order extends MX_Controller
         }
         $_SESSION['hasil_pengantaran'] = $hitung;
         echo json_encode($hasil);
+    }
+
+    public function set_self_service()
+    {
+        $_SESSION['jenis_pembelian'] = "self_service";
+        unset($_SESSION['hasil_ongkir']);
+        unset($_SESSION['hasil_pengantaran']);
     }
 
     public function simpan_transaksi()
