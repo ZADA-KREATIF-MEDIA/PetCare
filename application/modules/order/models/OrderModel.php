@@ -3,10 +3,15 @@
 class OrderModel extends CI_Model {
     protected $table    = 'transaksi';
     
-
-    public static function get_keranjang_status_keranjang()
+    public function get_alamat_pengantaran()
     {
-        
+        $this->db->select('koordinat_pengantaran')
+                ->from('transaksi')
+                ->where('id_user', $this->session->userdata('user_id'))
+                ->where('status','keranjang');
+        $query  = $this->db->get_compiled_select();
+        $data   = $this->db->query($query)->row_array();
+        return $data;
     }
 
     public function getAllProduk()

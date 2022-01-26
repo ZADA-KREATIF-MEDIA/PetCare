@@ -78,6 +78,7 @@
 <script src="<?= base_url() ?>assets/frontend/vendor/venobox/venobox.min.js"></script>
 <script src="<?= base_url() ?>assets/frontend/vendor/owl.carousel/owl.carousel.min.js"></script>
 <script src="<?= base_url() ?>assets/frontend/vendor/aos/aos.js"></script>
+<script src="<?= base_url() ?>assets/frontend/js/sweetalert2.js"></script>
 
 <!-- Template Main JS File -->
 <script src="<?= base_url() ?>assets/frontend/js/main.js"></script>
@@ -359,6 +360,13 @@
         }
     <?php endif;?>
     <?php if($this->uri->segment(1) == "checkout" || $this->uri->segment(2) == "checkout"):?>
+        function convertToRupiah(angka) {
+            var rupiah = '';
+            var angkarev = angka.toString().split('').reverse().join('');
+            for (var i = 0; i < angkarev.length; i++)
+                if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
+            return rupiah.split('', rupiah.length - 1).reverse().join('');
+        }
         $('#order').addClass('active');
         $('.btn-number').click(function(e){
             e.preventDefault();
@@ -446,13 +454,6 @@
             let koordinatPetShop        = '-7.970549,110.5886896';
             var directionsService = new google.maps.DirectionsService();
             var directionsRenderer = new google.maps.DirectionsRenderer();
-            function convertToRupiah(angka) {
-                var rupiah = '';
-                var angkarev = angka.toString().split('').reverse().join('');
-                for (var i = 0; i < angkarev.length; i++)
-                    if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
-                return rupiah.split('', rupiah.length - 1).reverse().join('');
-            }
             if(koordinatPengambilan == koordinatPengantaran) {
                 let request = {
                     origin          : koordinatPetShop,
@@ -461,7 +462,7 @@
                 }
                 directionsService.route(request, function(response, status) {
                     if ( status == google.maps.DirectionsStatus.OK ) {
-                       let jarak =  response.routes[0].legs[0].distance.text;
+                        let jarak =  response.routes[0].legs[0].distance.text;
                         $.ajax({
                             url     : '<?= base_url('order/hitung_harga_ongkir') ?>',
                             method  : 'POST',
@@ -564,8 +565,51 @@
             $.ajax({
                 url     : "<?= base_url('order/set_self_service')?>",
                 method  : "GET",
+                dataType : "JSON",
                 success : function(res){
-                    location.reload()
+                    console.log(res);
+                    if(res.cek_belanjaan > 0){
+                        Swal.fire(
+                            'Perhatian!!',
+                            'Anda memiliki tipe barang berjenis jasa, anda tidak dapat menggunakan layanan ini',
+                            'warning'
+                        )
+                    }else {
+                        let totalSubTotalProduk= $('#valueSubtotalProduk').val();
+                        $('#jenisPelayanan').text(res.jenis_pembelian);
+                        $('#jarakOngkir').text('-');
+                        $('#biayajarakOngkir').text(res.status);
+                        $('#valueBiayajarakOngkir').val(0);
+                        $('#total_belanja').text(convertToRupiah(totalSubTotalProduk));
+                        $('#valueTotalBelanja').val(totalSubTotalProduk);
+
+                    }
+                }
+            })
+        }
+        const servicePengantaran = () => {
+            $.ajax({
+                url     : "<?= base_url('order/set_service_pengantaran')?>",
+                method  : "GET",
+                dataType : "JSON",
+                success : function(res){
+                    console.log(res);
+                    if(res.cek_belanjaan > 0){
+                        Swal.fire(
+                            'Perhatian!!',
+                            'Anda memiliki tipe barang berjenis jasa, anda tidak dapat menggunakan layanan ini',
+                            'warning'
+                        )
+                    }else {
+                        let totalSubTotalProduk= $('#valueSubtotalProduk').val();
+                        // $('#jenisPelayanan').text(res.jenis_pembelian);
+                        // $('#jarakOngkir').text('-');
+                        // $('#biayajarakOngkir').text(res.status);
+                        // $('#valueBiayajarakOngkir').val(0);
+                        // $('#total_belanja').text(convertToRupiah(totalSubTotalProduk));
+                        // $('#valueTotalBelanja').val(totalSubTotalProduk);
+
+                    }
                 }
             })
         }

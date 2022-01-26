@@ -139,6 +139,7 @@ CREATE TABLE `transaksi`  (
   `status` enum('selesai','proses','diantar','diambil','keranjang') CHARACTER SET utf8mb4  NOT NULL DEFAULT 'proses',
   `catatan` text CHARACTER SET utf8mb4  NULL,
   `tanggal` varchar(255) CHARACTER SET utf8mb4  NULL DEFAULT NULL,
+  `kode_uniq` varchar(255) CHARACTER SET utf8mb4  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4  ROW_FORMAT = Dynamic;
 

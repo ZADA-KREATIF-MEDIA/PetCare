@@ -281,9 +281,21 @@ class Order extends MX_Controller
 
     public function set_self_service()
     {
-        $_SESSION['jenis_pembelian'] = "self_service";
-        unset($_SESSION['hasil_ongkir']);
-        unset($_SESSION['hasil_pengantaran']);
+        $hasil['jenis_pembelian'] = "Self Service";
+        $hasil['status']    = 'free ongkir';
+        $hasil['harga']     =  0;
+        $hasil['harga_txt'] =  0;
+        $hasil['jarak']     =  0;
+        $hasil['cek_belanjaan'] = $this->mod->cekJenisBelanjaan();
+        echo json_encode($hasil);
+    }
+
+    public function set_service_pengantaran()
+    {
+        $hasil['koordinat_pengantaran'] = $this->mod->get_alamat_pengantaran();
+        $hasil['dt_ongkir']  = $this->mod->getOngkir();
+        $hasil['cek_belanjaan'] = $this->mod->cekJenisBelanjaan();
+        echo json_encode($hasil);
     }
 
     public function simpan_transaksi()

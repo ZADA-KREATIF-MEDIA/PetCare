@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <label for="address">Cari Alamat</label>
                     <div class="input-group">
-                        <input type="text" id="address" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <input type="text" id="address" class="form-control" placeholder="Masukkan alamat pengambilan">
                         <div class="input-group-append">
                             <button type="button" class="input-group-text" id="basic-addon2" onclick="getlatlang()"><i class="fas fa-search"></i></button>
                         </div>
