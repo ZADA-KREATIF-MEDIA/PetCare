@@ -295,6 +295,37 @@ class Order extends MX_Controller
         $hasil['koordinat_pengantaran'] = $this->mod->get_alamat_pengantaran();
         $hasil['dt_ongkir']  = $this->mod->getOngkir();
         $hasil['cek_belanjaan'] = $this->mod->cekJenisBelanjaan();
+        $jarak      = explode(" ",$this->input->post('jarak'));
+        $dt_ongkir  = $this->mod->getOngkir();
+        if($dt_ongkir['status_jarak_minimal'] == "aktif"){
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
+                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     = 0;
+                $hasil['harga_txt'] = 0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        } else {
+            if($jarak[1] == "km"){
+                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
+                $hitung = round($jarak[0] * $dt_ongkir['harga']);
+                $hasil['status']    = 'bayar';
+                $hasil['harga']     = $hitung;
+                $hasil['harga_txt'] = number_format($hitung,0,',','.');
+                $hasil['jarak']     = $this->input->post('jarak');
+            } else{
+                $hasil['status']    = 'free ongkir';
+                $hasil['harga']     =  0;
+                $hasil['harga_txt'] =  0;
+                $hasil['jarak']     = $this->input->post('jarak');
+            }
+        }
         echo json_encode($hasil);
     }
 
@@ -305,26 +336,57 @@ class Order extends MX_Controller
         $biaya_ongkir_pengantaran   = $this->input->post('biaya_ongkir_pengantaran');
         $total                      = $this->input->post('total_belanja');
         $kode                       = rand(100,999);
-        if($biaya_ongkir != ""){
+        $jenis_transaksi            = $this->input->post('jenis_pelayanan');
+        if($jenis_transaksi == "self_service"){
             $post = [
                 'id'                => $this->input->post('id_transaksi'),
-                'ongkir'            => $biaya_ongkir,
-                'total_pembelian'   => $total + $kode,
-                'status'            => 'proses',
-                'tanggal'           => date("Y-m-d H:i:s"),
-                'catatan'           => $this->input->post('catatan'),
-                'kode_uniq'         => $kode
-            ];
-        } else {
-            $post = [
-                'id'                => $this->input->post('id_transaksi'),
-                'ongkir'            => $biaya_ongkir_pengambilan + $biaya_ongkir_pengantaran,
+                'ongkir'            => 0,
+                'koordinat_pengambilan' => null,
+                'alamat_pengambilan'    => null,
+                'koordinat_pengantaran' => null,
+                'alamat_pengantaran'    => null,
                 'total_pembelian'   => $total + $kode,
                 'status'            => 'proses',
                 'catatan'           => $this->input->post('catatan'),
                 'tanggal'           => date("Y-m-d H:i:s"),
-                'kode_uniq'         => $kode
+                'kode_uniq'         => $kode,
+                'jenis_transaksi'   => 'self_service'
             ];
+        }else if($jenis_transaksi == "pengantaran"){
+            $post = [
+                'id'                => $this->input->post('id_transaksi'),
+                'ongkir'            => $biaya_ongkir_pengantaran,
+                'koordinat_pengambilan' => null,
+                'alamat_pengambilan'    => null,
+                'total_pembelian'   => $total + $kode,
+                'status'            => 'proses',
+                'catatan'           => $this->input->post('catatan'),
+                'tanggal'           => date("Y-m-d H:i:s"),
+                'kode_uniq'         => $kode,
+                'jenis_transaksi'   => 'pengantaran'
+            ];
+        }else{
+            if($biaya_ongkir != ""){
+                $post = [
+                    'id'                => $this->input->post('id_transaksi'),
+                    'ongkir'            => $biaya_ongkir,
+                    'total_pembelian'   => $total + $kode,
+                    'status'            => 'proses',
+                    'tanggal'           => date("Y-m-d H:i:s"),
+                    'catatan'           => $this->input->post('catatan'),
+                    'kode_uniq'         => $kode
+                ];
+            } else {
+                $post = [
+                    'id'                => $this->input->post('id_transaksi'),
+                    'ongkir'            => $biaya_ongkir_pengambilan + $biaya_ongkir_pengantaran,
+                    'total_pembelian'   => $total + $kode,
+                    'status'            => 'proses',
+                    'catatan'           => $this->input->post('catatan'),
+                    'tanggal'           => date("Y-m-d H:i:s"),
+                    'kode_uniq'         => $kode
+                ];
+            }
         }
         // print('<pre>');print_r($post);exit();
         $this->mod->updateTransaksi($post);
@@ -339,7 +401,6 @@ class Order extends MX_Controller
             'content'   => 'order/transaksi',
             'transaksi' => $this->mod->getTransaksi($this->session->userdata('user_id'))
         ];
-        // print('<pre>');print_r($data['transaksi']);exit();
         $this->load->view('templates/frontend/index',$data);
     }
 

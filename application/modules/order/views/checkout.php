@@ -26,14 +26,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6 mb-3" >
+                                <div class="col-sm-12 col-md-6 mb-3" id="bagianAlamatPengambilan">
                                     <h5 class="card-title">Alamat Pengambilan</h5>
                                     <div id="bagianAlamatPengambilan">
                                         <p class="card-text"><?= $produk['alamat_pengambilan']?></p>
                                         <a href="<?= base_url('alamat_pengambilan/'.$produk['id_transaksi'])?>" class="btn btn-primary">Edit</a>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6">
+                                <div class="col-sm-12 col-md-6" id="bagianAlamatPengantaran">
                                     <h5 class="card-title">Alamat Pengantaran</h5>
                                     <div id="bagianAlamatPengantaran">
                                         <p class="card-text"><?= $produk['alamat_pengantaran'] ?></p>
@@ -87,18 +87,18 @@
                                         <?php if($total_produk > 500000):?>
                                             <div class="float-right">Free Ongkir</div>
                                             <input type="hidden" id="valueBiayajarakOngkir" value="0">
+                                        <?php else:?>
+                                            <?php if(!isset($_SESSION['hasil_ongkir'])):?>
+                                                <div class="float-right" ><button type="button" class="btn btn-sm btn-primary" onclick="window.location.reload()">tampilkan ongkir</button></div>
+                                                <input type="hidden" id="valueBiayajarakOngkir" name="biaya_ongkir" value="0">
                                             <?php else:?>
-                                                <?php if(!isset($_SESSION['hasil_ongkir'])):?>
-                                                    <div class="float-right" ><button type="button" class="btn btn-sm btn-primary" onclick="window.location.reload()">tampilkan ongkir</button></div>
-                                                    <input type="hidden" id="valueBiayajarakOngkir" name="biaya_ongkir" value="0">
-                                                <?php else:?>
-                                                    <div class="float-right" id="biayajarakOngkir"></div>
-                                                    <input type="hidden" id="valueBiayajarakOngkir" name="biaya_ongkir" value="<?= $_SESSION['hasil_ongkir']; ?>">
-                                                <?php endif;?>
+                                                <div class="float-right" id="biayajarakOngkir"></div>
+                                                <input type="hidden" id="valueBiayajarakOngkir" name="biaya_ongkir" value="<?= $_SESSION['hasil_ongkir']; ?>">
+                                            <?php endif;?>
                                         <?php endif;?>
                                     </li>
                                 <?php else: ?>
-                                    <li class="list-group-item">
+                                    <li class="list-group-item" id="bagianHargaPengambilan">
                                         Biaya Pengambilan (<span id="jarakPengambilan"></span>)
                                         <?php if($total_produk > 500000):?>
                                             <div class="float-right">Free Ongkir</div>
@@ -108,7 +108,7 @@
                                             <input type="hidden" id="valueBiayaOngkirPengambilan" name="biaya_ongkir_pengambilan" value="<?= $_SESSION['hasil_pengambilan']; ?>">
                                         <?php endif;?>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li class="list-group-item" id="bagianHargaPengantaran">
                                         Biaya Pengantaran (<span id="jarakPengantaran"></span>)
                                         <?php if($total_produk > 500000):?>
                                             <div class="float-right">Free Ongkir</div>
@@ -127,6 +127,7 @@
                             </ul>
                         </div>
                         <input type="hidden" name="id_transaksi" value="<?= $produk['id_transaksi'] ?>">
+                        <input type="hidden" id="jenisPelayananSimpan" name="jenis_pelayanan"> 
                         <button type="submit" class="btn btn-success btn-block mt-3"  <?php if(!isset($_SESSION['hasil_ongkir'])){echo "disabled";}?>>Checkout</button>
                     </div>
                 <?= form_close()?>

@@ -15,6 +15,13 @@
                             Transaksi <?= $t['tanggal'] ?>
                         </div>
                         <div class="float-right">
+                            <?php if($t['jenis_transaksi'] == "self_service"):?>
+                                <span class="badge badge-pill badge-dark p-2">Self Service</span>
+                            <?php elseif($t['jenis_transaksi'] == "pengantaran"):?>
+                                <span class="badge badge-pill badge-info p-2">Pengantaran</span>
+                            <?php else:?>
+                                <span class="badge badge-pill badge-primary p-2">Penjemputan-Pengantaran</span>
+                            <?php endif; ?>
                             <?php if($t['status'] == "selesai"):?>
                                 <span class="badge badge-pill badge-success p-2"><?= $t['status'] ?></span>
                             <?php elseif($t['status'] == "proses"):?>
@@ -30,12 +37,12 @@
                     <div class="card-body">
                     <span class="text-danger mb-2 font-weight-bold">*3 digit angka terakhir merupakan kode uniq untuk memverifikasi transaksi, pastikan lakukan pembayaran sesuai nominal yang tertera</span>
                     <hr>
-                        <div class="row mb-3">
+                        <div class="row mb-3 <?php if($t['jenis_transaksi'] == "self_service"){ echo "d-none"; }?>">
                             <div class="col-sm-12 col-md-6 mb-2">
                                 <h5 class="card-title">Alamat Pengantaran</h5>
                                 <p class="card-text"><?= $t['alamat_pengantaran'] ?></p>
                             </div>
-                            <div class="col-sm-12 col-md-6 mb-2">
+                            <div class="col-sm-12 col-md-6 mb-2 <?php if($t['jenis_transaksi'] == "pengantaran"){ echo "d-none"; }?>">
                                 <h5 class="card-title">Alamat Pengambilan</h5>
                                 <p class="card-text"><?= $t['alamat_pengambilan'] ?></p>
                             </div>

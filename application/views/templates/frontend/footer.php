@@ -478,7 +478,11 @@
                     const hitungTotal = () => {
                         let a = parseInt($('#valueBiayajarakOngkir').val());
                         let subTotal = parseInt($('#valueSubtotalProduk').val());
-                        let total = a+subTotal;
+                        if(subTotal > 500000){
+                            let total = subTotal;
+                        }else{
+                            let total = a+subTotal;
+                        }
                         $('#totalBelanja').text(convertToRupiah(total));
                         $('#valueTotalBelanja').val(total);
                     }
@@ -537,7 +541,12 @@
                     let a = parseInt($('#valueBiayaOngkirPengambilan').val());
                     let b = parseInt($('#valueBiayaOngkirPengantaran').val());
                     let subTotal = parseInt($('#valueSubtotalProduk').val());
-                    let total = a+b+subTotal;
+                    let total
+                    if(subTotal > 500000){
+                        total = subTotal;
+                    }else{
+                        total = a+b+subTotal;
+                    }
                     $('#totalBelanja').text(convertToRupiah(total));
                     $('#valueTotalBelanja').val(total);
                 }
@@ -562,6 +571,7 @@
             });
         }
         const selfService = () => {
+            $('#jenisPelayananSimpan').val('self_service');
             $.ajax({
                 url     : "<?= base_url('order/set_self_service')?>",
                 method  : "GET",
@@ -580,38 +590,70 @@
                         $('#jarakOngkir').text('-');
                         $('#biayajarakOngkir').text(res.status);
                         $('#valueBiayajarakOngkir').val(0);
-                        $('#total_belanja').text(convertToRupiah(totalSubTotalProduk));
+                        $('#totalBelanja').text(convertToRupiah(totalSubTotalProduk));
                         $('#valueTotalBelanja').val(totalSubTotalProduk);
-
+                        $('#bagianAlamatPengambilan').addClass('d-none');
+                        $('#bagianAlamatPengantaran').addClass('d-none');
+                        $('#bagianHargaPengambilan').addClass('d-none');
+                        $('#bagianHargaPengantaran').addClass('d-none');
+                        $('#valueBiayaOngkirPengambilan').val(0);
+                        $('#valueBiayaOngkirPengantaran').val(0);
                     }
                 }
             })
         }
         const servicePengantaran = () => {
-            $.ajax({
-                url     : "<?= base_url('order/set_service_pengantaran')?>",
-                method  : "GET",
-                dataType : "JSON",
-                success : function(res){
-                    console.log(res);
-                    if(res.cek_belanjaan > 0){
-                        Swal.fire(
-                            'Perhatian!!',
-                            'Anda memiliki tipe barang berjenis jasa, anda tidak dapat menggunakan layanan ini',
-                            'warning'
-                        )
-                    }else {
-                        let totalSubTotalProduk= $('#valueSubtotalProduk').val();
-                        // $('#jenisPelayanan').text(res.jenis_pembelian);
-                        // $('#jarakOngkir').text('-');
-                        // $('#biayajarakOngkir').text(res.status);
-                        // $('#valueBiayajarakOngkir').val(0);
-                        // $('#total_belanja').text(convertToRupiah(totalSubTotalProduk));
-                        // $('#valueTotalBelanja').val(totalSubTotalProduk);
-
-                    }
+            $('#jenisPelayanan').text('Pengantaran');
+            $('#jenisPelayananSimpan').val('pengantaran');
+            $('#bagianAlamatPengambilan').addClass('d-none');
+            var geocoder                = new google.maps.Geocoder();
+            let totalSubTotalProduk     = $('#valueSubtotalProduk').val();
+            let koordinatPetShop        = '-7.970549,110.5886896';
+            let koordinatPengantaran    = '<?= $produk['koordinat_pengantaran'] ?>';
+            var directionsService       = new google.maps.DirectionsService();
+            var directionsRenderer      = new google.maps.DirectionsRenderer();
+            let request = {
+                origin          : koordinatPetShop,
+                destination     : koordinatPengantaran,
+                travelMode      : 'DRIVING'
+            }
+            directionsService.route(request, function(response, status) {
+                if ( status == google.maps.DirectionsStatus.OK ) {
+                    let jarak =  response.routes[0].legs[0].distance.text;
+                    console.log(jarak);
+                    $.ajax({
+                        url     : '<?= base_url('order/hitung_harga_pengantaran') ?>',
+                        method  : 'POST',
+                        data    : { jarak : jarak},
+                        success : function(res){
+                            let hasil = $.parseJSON(res);
+                            if(hasil.cek_belanjaan > 0){
+                                Swal.fire(
+                                    'Perhatian!!',
+                                    'Anda memiliki tipe barang berjenis jasa, anda tidak dapat menggunakan layanan ini',
+                                    'warning'
+                                )
+                            }else {
+                                let ongkir;
+                                if(hasil.harga > 500000){
+                                    ongkir = 0;
+                                } else {
+                                    ongkir = hasil.harga;
+                                }
+                                $('#jarakOngkir').text(hasil.jarak);
+                                $('#biayajarakOngkir').text(hasil.harga_txt);
+                                $('#valueBiayajarakOngkir').val(ongkir);
+                                $('#textFreeOngkir').text(convertToRupiah(hasil.harga));
+                                totalBelanja = parseInt(totalSubTotalProduk) + parseInt(ongkir);
+                                $('#totalBelanja').text(convertToRupiah(totalBelanja));
+                                $('#valueTotalBelanja').val(totalBelanja);
+                                $('#bagianHargaPengambilan').addClass('d-none');
+                                $('#valueBiayaOngkirPengambilan').val(0);
+                            }
+                        }
+                    }); 
                 }
-            })
+            });
         }
     <?php endif;?>
     <?php if($this->uri->segment(1) == "transaksi" || $this->uri->segment(2) == "transaksi"):?>
@@ -638,7 +680,7 @@
                         <hr/>
                         <span>Subtotal: ${hasil.subtotal}</span><br/>`
                         if(hasil.ongkir != "") {
-                    html +=        `<span>Ongkir: ${hasil.subtotal}</span>`
+                    html +=        `<span>Ongkir: ${hasil.ongkir}</span>`
                         } else {
                     html +=        `<span>Ongkir: - </span>`
                         }
