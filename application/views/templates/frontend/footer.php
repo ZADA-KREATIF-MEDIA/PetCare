@@ -476,12 +476,13 @@
                         }); 
                     }
                     const hitungTotal = () => {
+                        let total
                         let a = parseInt($('#valueBiayajarakOngkir').val());
                         let subTotal = parseInt($('#valueSubtotalProduk').val());
                         if(subTotal > 500000){
-                            let total = subTotal;
+                            total = subTotal;
                         }else{
-                            let total = a+subTotal;
+                            total = a+subTotal;
                         }
                         $('#totalBelanja').text(convertToRupiah(total));
                         $('#valueTotalBelanja').val(total);
