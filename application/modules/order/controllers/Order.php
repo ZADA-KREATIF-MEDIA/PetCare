@@ -174,8 +174,13 @@ class Order extends MX_Controller
         $dt_ongkir  = $this->mod->getOngkir();
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
-                $hitung = round(($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']))*2);
+                if(round($jarak[0]) <= 5){
+                    $cek_selsih_jarak_minimal = round($jarak[0]);
+                    $hitung = round($dt_ongkir['harga_jarak_minimal']);
+                }else{
+                    $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
+                    $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal * $dt_ongkir['harga']));
+                }
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
                 $hasil['harga_txt'] = number_format($hitung,0,',','.');
@@ -211,8 +216,13 @@ class Order extends MX_Controller
         $dt_ongkir  = $this->mod->getOngkir();
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
-                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                if(round($jarak[0]) <= 5){
+                    $cek_selsih_jarak_minimal = round($jarak[0]);
+                    $hitung = round($dt_ongkir['harga_jarak_minimal']);
+                }else{
+                    $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
+                    $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal * $dt_ongkir['harga']));
+                }
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
                 $hasil['harga_txt'] = number_format($hitung,0,',','.');
@@ -248,8 +258,13 @@ class Order extends MX_Controller
         $dt_ongkir  = $this->mod->getOngkir();
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
-                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                if(round($jarak[0]) <= 5){
+                    $cek_selsih_jarak_minimal = round($jarak[0]);
+                    $hitung = round($dt_ongkir['harga_jarak_minimal']);
+                }else{
+                    $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
+                    $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal * $dt_ongkir['harga']));
+                }
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
                 $hasil['harga_txt'] = number_format($hitung,0,',','.');
@@ -299,8 +314,13 @@ class Order extends MX_Controller
         $dt_ongkir  = $this->mod->getOngkir();
         if($dt_ongkir['status_jarak_minimal'] == "aktif"){
             if($jarak[1] == "km"){
-                $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
-                $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal *$dt_ongkir['harga']));
+                if(round($jarak[0]) <= 5){
+                    $cek_selsih_jarak_minimal = round($jarak[0]);
+                    $hitung = round($dt_ongkir['harga_jarak_minimal']);
+                }else{
+                    $cek_selsih_jarak_minimal = round($jarak[0]) - 5;
+                    $hitung = round($dt_ongkir['harga_jarak_minimal'] + ($cek_selsih_jarak_minimal * $dt_ongkir['harga']));
+                }
                 $hasil['status']    = 'bayar';
                 $hasil['harga']     = $hitung;
                 $hasil['harga_txt'] = number_format($hitung,0,',','.');
@@ -363,10 +383,14 @@ class Order extends MX_Controller
                 'catatan'           => $this->input->post('catatan'),
                 'tanggal'           => date("Y-m-d H:i:s"),
                 'kode_uniq'         => $kode,
-                'jenis_transaksi'   => 'pengantaran'
+                'jenis_transaksi'   => 'pengantaran',
+                'jarak_pengantaran' => $this->input->post('jarak_pengantaran')
             ];
         }else{
             if($biaya_ongkir != ""){
+                $jarak_ongkir = $this->input->post('jarak_ongkir');
+                $split_jarak = explode(' ',$jarak_ongkir);
+                $pembagian_jarak = round($split_jarak[0]) / 2;
                 $post = [
                     'id'                => $this->input->post('id_transaksi'),
                     'ongkir'            => $biaya_ongkir,
@@ -374,7 +398,9 @@ class Order extends MX_Controller
                     'status'            => 'proses',
                     'tanggal'           => date("Y-m-d H:i:s"),
                     'catatan'           => $this->input->post('catatan'),
-                    'kode_uniq'         => $kode
+                    'kode_uniq'         => $kode,
+                    'jarak_pengambilan' => $pembagian_jarak." ".$split_jarak[1],
+                    'jarak_pengantaran' => $pembagian_jarak." ".$split_jarak[1]
                 ];
             } else {
                 $post = [
@@ -384,11 +410,12 @@ class Order extends MX_Controller
                     'status'            => 'proses',
                     'catatan'           => $this->input->post('catatan'),
                     'tanggal'           => date("Y-m-d H:i:s"),
-                    'kode_uniq'         => $kode
+                    'kode_uniq'         => $kode,
+                    'jarak_pengambilan' => $this->input->post('jarak_pengambilan'),
+                    'jarak_pengantaran' => $this->input->post('jarak_pengantaran')
                 ];
             }
         }
-        // print('<pre>');print_r($post);exit();
         $this->mod->updateTransaksi($post);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil checkout keranjang</div>');
         redirect('order/transaksi');

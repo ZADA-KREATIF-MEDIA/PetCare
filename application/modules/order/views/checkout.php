@@ -83,6 +83,7 @@
                                             -
                                         <?php else:?>
                                             Biaya Ongkir (<span id="jarakOngkir"></span>)
+                                            <input type="hidden" id="valueJarakOngkir" name="jarak_ongkir">
                                         <?php endif;?>
                                         <?php if($total_produk > 500000):?>
                                             <div class="float-right">Free Ongkir</div>
@@ -106,6 +107,7 @@
                                         <?php else:?>
                                             <div class="float-right" id="biayaOngkirPengambilan"></div>
                                             <input type="hidden" id="valueBiayaOngkirPengambilan" name="biaya_ongkir_pengambilan" value="<?= $_SESSION['hasil_pengambilan']; ?>">
+                                            <input type="hidden" id="valueJarakPengambilan" name="jarak_pengambilan">
                                         <?php endif;?>
                                     </li>
                                     <li class="list-group-item" id="bagianHargaPengantaran">
@@ -116,6 +118,7 @@
                                         <?php else:?>
                                             <div class="float-right" id="biayaOngkirPengantaran"></div>
                                             <input type="hidden" id="valueBiayaOngkirPengantaran" name="biaya_ongkir_pengantaran" value="<?= $_SESSION['hasil_pengantaran'] ?>">
+                                            <input type="hidden" id="valueJarakPengantaran" name="jarak_pengantaran">
                                         <?php endif;?>
                                     </li>
                                 <?php endif;?>

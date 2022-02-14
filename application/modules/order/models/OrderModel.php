@@ -300,7 +300,8 @@ class OrderModel extends CI_Model {
         $this->db->select()
                 ->from('transaksi')
                 ->where('id_user', $id)
-                ->where('status !=','keranjang');
+                ->where('status !=','keranjang')
+                ->order_by('tanggal','DESC');
         $query = $this->db->get_compiled_select();
         $data  = $this->db->query($query)->result_array();
         return $data;
@@ -320,7 +321,10 @@ class OrderModel extends CI_Model {
                 ->where('id',$id);
         $query2 = $this->db->get_compiled_select();
         $data2  = $this->db->query($query2)->row_array();
-        
+        $this->db->select()
+                ->from('tarif_ongkir');
+        $query3 = $this->db->get_compiled_select();
+        $data3  = $this->db->query($query3)->row_array();
         $i = 0;
         $subtotal = 0;
         foreach ($data as $d){
@@ -333,6 +337,11 @@ class OrderModel extends CI_Model {
             $subtotal += $d['jumlah'] * $d['total_harga'];
             $i++;
         }
+        $hasil['jenis_transaksi'] = $data2['jenis_transaksi'];
+        $hasil['harga_jarak_minimal'] = $data3['harga_jarak_minimal'];
+        $hasil['harga_charge'] =  $data3['harga'];
+        $hasil['jarak_pengambilan'] = $data2['jarak_pengambilan'];
+        $hasil['jarak_pengantaran'] = $data2['jarak_pengantaran'];
         $hasil['ongkir']    = number_format($data2['ongkir'],0,',','.');
         $hasil['subtotal']  = number_format($subtotal,0,',','.');
         $hasil['total']     = number_format($data2['total_pembelian'],0,',','.');

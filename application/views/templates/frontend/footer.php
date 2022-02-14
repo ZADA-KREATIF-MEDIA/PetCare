@@ -472,6 +472,7 @@
                                 $('#jarakOngkir').text(hasil.jarak);
                                 $('#biayajarakOngkir').text(hasil.harga_txt);
                                 $('#valueBiayajarakOngkir').val(hasil.harga);
+                                $('#valueJarakOngkir').val(hasil.jarak);
                             }
                         }); 
                     }
@@ -514,6 +515,7 @@
                             success : function(res){
                                 let hasil = $.parseJSON(res);
                                 $('#jarakPengambilan').text(hasil.jarak);
+                                $('#valueJarakPengambilan').val(hasil.jarak);
                                 $('#valueBiayaOngkirPengambilan').val(hasil.harga);
                                 $('#biayaOngkirPengambilan').text(hasil.harga_txt);
                             }
@@ -531,6 +533,7 @@
                             success : function(res){
                                 let hasil = $.parseJSON(res);
                                 $('#jarakPengantaran').text(hasil.jarak);
+                                $('#valueJarakPengantaran').val(hasil.jarak);
                                 $('#valueBiayaOngkirPengantaran').val(hasil.harga);
                                 $('#biayaOngkirPengantaran').text(hasil.harga_txt);
                             }
@@ -644,6 +647,7 @@
                                 $('#jarakOngkir').text(hasil.jarak);
                                 $('#biayajarakOngkir').text(hasil.harga_txt);
                                 $('#valueBiayajarakOngkir').val(ongkir);
+                                $('#valueJarakOngkir').val(hasil.jarak);
                                 $('#textFreeOngkir').text(convertToRupiah(hasil.harga));
                                 totalBelanja = parseInt(totalSubTotalProduk) + parseInt(ongkir);
                                 $('#totalBelanja').text(convertToRupiah(totalBelanja));
@@ -666,6 +670,7 @@
                 success : function(res) {
                     let hasil = $.parseJSON(res);
                     $('#detailTransaksi').empty();
+                    let splitJarakPengantaran = hasil.jarak_pengantaran.split(" ");
                     let html = '';
                     $.each(hasil.detail, function(index,value){
                         html += `
@@ -677,6 +682,56 @@
                         </div>
                         `;
                     });
+                    switch (hasil.jenis_transaksi){
+                        case  "lengkap":
+                            let splitJarakPengambilan = hasil.jarak_pengambilan.split(" ");
+                            html += `
+                                <h6>Rincian Tarif Ongkir</h6>
+                                <hr/>
+                            `
+                            if(splitJarakPengantaran[0] <= 5 && splitJarakPengambilan[0] <= 5){
+                                html += `
+                                        <span>Jarak Pengambilan: ${hasil.jarak_pengambilan}</span><br/>
+                                        <span>Jarak Pengantaran: ${hasil.jarak_pengantaran}</span><br/>
+                                        <span>Tarif : ${hasil.harga_jarak_minimal}</span><br/>
+                                        <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman dibawah 5 km maka akan dikenakan tarif ${hasil.harga_jarak_minimal}</span>
+                                    `
+                            }else{
+                                let jarakKelebihanOngkirNormal = parseInt(Math.round(splitJarakPengantaran[0])) + parseInt(Math.round(splitJarakPengambilan[0])) - 10;
+                                let perhitunganChageOngkir = (parseInt(jarakKelebihanOngkirNormal) *  parseInt(hasil.harga_charge)) + parseInt(10000);
+                                html += `
+                                    <span>Jarak Pengambilan: ${hasil.jarak_pengambilan}</span><br/>
+                                    <span>Jarak Pengantaran: ${hasil.jarak_pengantaran}</span><br/>
+                                    <span>Tarif Minimal : ${hasil.harga_jarak_minimal}</span><br/>
+                                    <span>Tarif Ongkir : ${jarakKelebihanOngkirNormal} * ${hasil.harga_charge} = ${perhitunganChageOngkir}</span><br/>
+                                    <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman dibawah 5 km maka akan dikenakan tarif ${hasil.harga_jarak_minimal} * jumlah jarak yang diatas <b>${hasil.harga_jarak_minimal}</b> adalah ${jarakKelebihanOngkirNormal} km</span>
+                                `
+                            }
+                            break;
+                        case "pengantaran":
+                            splitJarakPengantaran = hasil.jarak_pengantaran.split(" ");
+                            html += `
+                                <h6>Rincian Tarif Ongkir</h6>
+                                <hr/>
+                            `
+                            if(splitJarakPengantaran[0] <= 5){
+                                html += `
+                                        <span>Jarak Pengantaran: ${hasil.jarak_pengantaran}</span><br/>
+                                        <span>Tarif : ${hasil.harga_jarak_minimal}</span><br/>
+                                        <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman dibawah 5 km maka akan dikenakan tarif ${hasil.harga_jarak_minimal}</span>
+                                    `
+                            }else{
+                                let jarakKelebihanOngkirNormal = parseInt(Math.round(splitJarakPengantaran[0])) - parseInt(5);
+                                let perhitunganChageOngkir = (parseInt(jarakKelebihanOngkirNormal) *  parseInt(hasil.harga_charge)) + parseInt(5000);
+                                html += `
+                                    <span>Jarak Pengantaran: ${hasil.jarak_pengantaran}</span><br/>
+                                    <span>Tarif Minimal : ${hasil.harga_jarak_minimal}</span><br/>
+                                    <span>Tarif Ongkir : ${jarakKelebihanOngkirNormal} * ${hasil.harga_charge} = ${perhitunganChageOngkir}</span><br/>
+                                    <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman dibawah 5 km maka akan dikenakan tarif ${hasil.harga_jarak_minimal} * jumlah jarak yang diatas <b>${hasil.harga_jarak_minimal}</b> adalah ${jarakKelebihanOngkirNormal} km</span>
+                                `
+                            }
+                            break
+                    }
                     html += `
                         <hr/>
                         <span>Subtotal: ${hasil.subtotal}</span><br/>`
