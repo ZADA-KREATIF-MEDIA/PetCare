@@ -19,7 +19,7 @@
                     <tr>
                         <td width=150>Nama Customer</td>
                         <td width=10>:</td>
-                        <td><?= $pesanan->id_user ?></td>
+                        <td><?= $customer->nama ?></td>
                     </tr>
                     <tr>
                         <td>Tanggal Pemesanan</td>
@@ -35,6 +35,11 @@
                         <td>Alamat Pengantaran</td>
                         <td>:</td>
                         <td><?= $pesanan->alamat_pengantaran ?></td>
+                    </tr>
+                    <tr height="40" valign="top">
+                        <td>Jenis Transaksi</td>
+                        <td>:</td>
+                        <td><?= ucwords($pesanan->jenis_transaksi) ?></td>
                     </tr>
                     <tr height="50" valign="top">
                         <td>Catatan</td>
@@ -74,7 +79,7 @@
                     <tr align="center">
                         <th scope="row"><?= $nomor++ ?></th>
                         <td><?= $data['nama_produk'] ?></td>
-                        <td>Rp. <?= number_format($data['harga']) ?></td>
+                        <td>Rp. <?= number_format($data['harga'],0,'.','.') ?></td>
                         <td><?= $data['jumlah'] ?></td>
                         <td><?= $data['catatan'] ?></td>
                     </tr>
@@ -86,21 +91,120 @@
                 ?>
                 <tr align=center>
                     <td colspan="2"><strong>Total Pembelian : </strong></td>
-                    <td>Rp <?= number_format($total_pembelian); ?></td>
+                    <td>Rp <?= number_format($total_pembelian,0,'.','.'); ?></td>
                     <td><?= $total_barang; ?></td>
                     <td></td>
                 </tr>
+                <?php $explode_jarak_pengantaran = explode(' ',$pesanan->jarak_pengantaran); ?>
+                <?php switch($pesanan->jenis_transaksi):
+                case "lengkap":?>
+                    <tr align=center>
+                        <td colspan="5"><strong>Rincian Ongkir : </strong></td>
+                    </tr>
+                    <?php $explode_jarak_pengambilan = $pesanan->jarak_pengambilan ? explode(' ',$pesanan->jarak_pengambilan) : 0; ?>
+                    <?php if(round($explode_jarak_pengambilan[0]) <= 5 && round($explode_jarak_pengantaran[0]) <= 5):?>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengambilan:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengambilan ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengantaran:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Tarif:</td>
+                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">Untuk pengiriman dibawah 5 km maka akan dikenakan tarif <?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
+                        </tr>
+                    <?php else:?>
+                        <?php
+                            $jarak_kelebihan_ongkir_normal = round($explode_jarak_pengambilan[0]) + round($explode_jarak_pengantaran[0]) - 10;
+                            $perhitungan_chage_ongkir = $jarak_kelebihan_ongkir_normal + $setting_ongkir->harga + ($setting_ongkir->harga_jarak_minimal * 2);
+                            $total_charge = $jarak_kelebihan_ongkir_normal * $setting_ongkir->harga;
+                        ?>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengambilan:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengambilan ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengantaran:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Tarif Minimal:</td>
+                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.')." * 2 = ". number_format($setting_ongkir->harga_jarak_minimal*2,0,'.','.') ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Detail Tarif Ongkir:</td>
+                            <td colspan="3"><?php echo $jarak_kelebihan_ongkir_normal." * ".number_format($setting_ongkir->harga,0,'.','.')." = ".number_format($total_charge,0,'.','.'); ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">Untuk pengiriman diatas 5 km maka akan dikenakan tarif tambahan <b><?= number_format($setting_ongkir->harga,0,'.','.') ?></b> / km</td>
+                        </tr>
+                    <?php endif;?>
+                <?php break;?>
+                <?php case "pengantaran":?>
+                    <?php if(round($explode_jarak_pengantaran[0]) <= 5):?>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengambilan:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengambilan ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengantaran:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Tarif:</td>
+                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">Untuk pengiriman dibawah 5 km maka akan dikenakan tarif <?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
+                        </tr>
+                    <?php else:?>
+                        <?php
+                            $jarak_kelebihan_ongkir_normal = round($explode_jarak_pengantaran[0]) - 5;
+                            $perhitungan_chage_ongkir = $jarak_kelebihan_ongkir_normal + $setting_ongkir->harga + $setting_ongkir->harga_jarak_minimal;
+                            $total_charge = $jarak_kelebihan_ongkir_normal * $setting_ongkir->harga;
+                        ?>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengambilan:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengambilan ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Jarak Pengantaran:</td>
+                            <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Tarif Minimal:</td>
+                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.')." = ". number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
+                        </tr>
+                        <tr align=center>
+                            <td colspan="2">Detail Tarif Ongkir:</td>
+                            <td colspan="3"><?php echo $jarak_kelebihan_ongkir_normal." * ".number_format($setting_ongkir->harga,0,'.','.')." = ".number_format($total_charge,0,'.','.'); ?></td>
+                        </tr>
+                        <tr>
+                        <td colspan="5">Untuk pengiriman diatas 5 km maka akan dikenakan tarif tambahan <b><?= number_format($setting_ongkir->harga,0,'.','.') ?></b> / km</td>
+                        </tr>
+                    <?php endif;?>
+                <?php break;?>
+                <?php endswitch;?>
                 <tr align=center>
                     <td colspan="2"><strong>Total Ongkir : </strong></td>
                     <?php if($pesanan->ongkir != ""):?>
-                        <td colspan="3">Rp <?= number_format($pesanan->ongkir); ?></td>
+                        <td colspan="3">Rp <?= number_format($pesanan->ongkir,0,'.','.'); ?></td>
                     <?php else:?>
                         <td colspan="3" style="text-align: left;">Free Ongkir</td>
                     <?php endif;?>
                 </tr>
                 <tr align=center>
+                    <td colspan="2"><strong>Kode Uniq : </strong></td>
+                    <td colspan="3">Rp <?= number_format($pesanan->kode_uniq,0,'.','.'); ?></td>
+                </tr>
+                <tr align=center>
                     <td colspan="2"><strong>Total Pembelian : </strong></td>
-                    <td colspan="3">Rp <?= number_format($pesanan->total_pembelian); ?></td>
+                    <td colspan="3">Rp <?= number_format($pesanan->total_pembelian,0,'.','.'); ?></td>
                 </tr>
             </tbody>
         </table>

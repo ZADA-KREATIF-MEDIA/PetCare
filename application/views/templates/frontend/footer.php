@@ -698,13 +698,13 @@
                                     `
                             }else{
                                 let jarakKelebihanOngkirNormal = parseInt(Math.round(splitJarakPengantaran[0])) + parseInt(Math.round(splitJarakPengambilan[0])) - 10;
-                                let perhitunganChageOngkir = (parseInt(jarakKelebihanOngkirNormal) *  parseInt(hasil.harga_charge)) + parseInt(10000);
+                                let perhitunganChageOngkir = (parseInt(jarakKelebihanOngkirNormal) *  parseInt(hasil.harga_charge)) + (parseInt(hasil.harga_jarak_minimal) * parseInt(2));
                                 html += `
                                     <span>Jarak Pengambilan: ${hasil.jarak_pengambilan}</span><br/>
                                     <span>Jarak Pengantaran: ${hasil.jarak_pengantaran}</span><br/>
-                                    <span>Tarif Minimal : ${hasil.harga_jarak_minimal}</span><br/>
+                                    <span>Tarif Minimal : ${hasil.harga_jarak_minimal} * 2 = ${parseInt(hasil.harga_jarak_minimal) * parseInt(2)}</span><br/>
                                     <span>Tarif Ongkir : ${jarakKelebihanOngkirNormal} * ${hasil.harga_charge} = ${perhitunganChageOngkir}</span><br/>
-                                    <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman dibawah 5 km maka akan dikenakan tarif ${hasil.harga_jarak_minimal} * jumlah jarak yang diatas <b>${hasil.harga_jarak_minimal}</b> adalah ${jarakKelebihanOngkirNormal} km</span>
+                                    <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman diatas 5 km maka akan dikenakan tarif tambahan ${hasil.harga_jarak_minimal}</b> / km</span>
                                 `
                             }
                             break;
@@ -727,7 +727,7 @@
                                     <span>Jarak Pengantaran: ${hasil.jarak_pengantaran}</span><br/>
                                     <span>Tarif Minimal : ${hasil.harga_jarak_minimal}</span><br/>
                                     <span>Tarif Ongkir : ${jarakKelebihanOngkirNormal} * ${hasil.harga_charge} = ${perhitunganChageOngkir}</span><br/>
-                                    <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman dibawah 5 km maka akan dikenakan tarif ${hasil.harga_jarak_minimal} * jumlah jarak yang diatas <b>${hasil.harga_jarak_minimal}</b> adalah ${jarakKelebihanOngkirNormal} km</span>
+                                    <span><i class="fas fa-info-circle text-info"></i> Untuk pengiriman datas 5 km maka akan dikenakan tarif ${hasil.harga_jarak_minimal}</b> / km</span>
                                 `
                             }
                             break

@@ -8,6 +8,8 @@ class Pesanan extends MX_Controller
         parent::__construct();
         $this->load->model('PesananModel', 'mod');
         $this->load->model('DetailPesananModel', 'mod2');
+        $this->load->model('TarifModel','mod3');
+        $this->load->model('UserModel','mod4');
     }
     public function index()
     {
@@ -38,6 +40,8 @@ class Pesanan extends MX_Controller
         $data['title'] = "NOTA PESANAN";
         $data['pesanan'] = $this->mod->getById($id);
         $data['detail_pesanan'] = $this->mod2->getAllJoin($id);
+        $data['setting_ongkir'] = $this->mod3->getByID(1);
+        $data['customer'] = $this->mod4->getByID($data['pesanan']->id_user);
         $this->load->view('admin/pesanan/cetak',$data);
     }
     public function delete($id)
