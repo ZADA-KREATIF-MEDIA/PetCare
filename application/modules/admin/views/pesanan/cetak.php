@@ -111,18 +111,19 @@
                             <td colspan="2">Jarak Pengantaran:</td>
                             <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
                         </tr>
-                        <tr align=center>
-                            <td colspan="2">Tarif:</td>
-                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
-                        </tr>
                         <tr>
                             <td colspan="5">Untuk pengiriman dibawah 5 km maka akan dikenakan tarif <?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
                         </tr>
                     <?php else:?>
-                        <?php
-                            $jarak_kelebihan_ongkir_normal = round($explode_jarak_pengambilan[0]) + round($explode_jarak_pengantaran[0]) - 10;
+                       <?php
+                            $jarak_kelebihan_ongkir_normal = $explode_jarak_pengambilan[0] + $explode_jarak_pengantaran[0] - 5;
                             $perhitungan_chage_ongkir = $jarak_kelebihan_ongkir_normal + $setting_ongkir->harga + ($setting_ongkir->harga_jarak_minimal * 2);
                             $total_charge = $jarak_kelebihan_ongkir_normal * $setting_ongkir->harga;
+                            $pembagian_jarak_minimal = 5/2;
+                            $biaya_pengambilan = (($explode_jarak_pengambilan[0] - $pembagian_jarak_minimal) * 5000);
+                            $biaya_pengantaran = (($explode_jarak_pengantaran[0] - $pembagian_jarak_minimal) * 5000);
+                            $pengurangan_jarak_pengambilan = $explode_jarak_pengambilan[0] - 5;
+                            $pengurangan_jarak_pengantaran = $explode_jarak_pengantaran[0] - 5;
                         ?>
                         <tr align=center>
                             <td colspan="2">Jarak Pengambilan:</td>
@@ -133,13 +134,17 @@
                             <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
                         </tr>
                         <tr align=center>
-                            <td colspan="2">Tarif Minimal:</td>
-                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.')." * 2 = ". number_format($setting_ongkir->harga_jarak_minimal*2,0,'.','.') ?></td>
+                            <td colspan="2">Biaya Pengambilan:</td>
+                            <td colspan="3"><?php echo "5 * ".$setting_ongkir->harga_jarak_minimal."=".number_format(5*$setting_ongkir->harga_jarak_minimal,0,'.','.')." + ".$pengurangan_jarak_pengambilan." * 5000 = ".number_format($pengurangan_jarak_pengambilan*5000,0,'.','.') ?></td>
                         </tr>
                         <tr align=center>
-                            <td colspan="2">Detail Tarif Ongkir:</td>
-                            <td colspan="3"><?php echo $jarak_kelebihan_ongkir_normal." * ".number_format($setting_ongkir->harga,0,'.','.')." = ".number_format($total_charge,0,'.','.'); ?></td>
+                            <td colspan="2">Biaya Pengantaran:</td>
+                            <td colspan="3"><?php echo "5 * ".$setting_ongkir->harga_jarak_minimal."=".number_format(5*$setting_ongkir->harga_jarak_minimal,0,'.','.')." + ".$pengurangan_jarak_pengantaran." * 5000 = ".number_format($pengurangan_jarak_pengantaran*5000,0,'.','.') ?></td>
                         </tr>
+                        <!--<tr align=center>-->
+                        <!--    <td colspan="2">Detail Tarif Ongkir:</td>-->
+                        <!--    <td colspan="3"><?php echo $jarak_kelebihan_ongkir_normal." * ".number_format($setting_ongkir->harga,0,'.','.')." = ".number_format($total_charge,0,'.','.'); ?></td>-->
+                        <!--</tr>-->
                         <tr>
                             <td colspan="5">Untuk pengiriman diatas 5 km maka akan dikenakan tarif tambahan <b><?= number_format($setting_ongkir->harga,0,'.','.') ?></b> / km</td>
                         </tr>
@@ -155,10 +160,6 @@
                             <td colspan="2">Jarak Pengantaran:</td>
                             <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
                         </tr>
-                        <tr align=center>
-                            <td colspan="2">Tarif:</td>
-                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
-                        </tr>
                         <tr>
                             <td colspan="5">Untuk pengiriman dibawah 5 km maka akan dikenakan tarif <?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
                         </tr>
@@ -167,6 +168,8 @@
                             $jarak_kelebihan_ongkir_normal = round($explode_jarak_pengantaran[0]) - 5;
                             $perhitungan_chage_ongkir = $jarak_kelebihan_ongkir_normal + $setting_ongkir->harga + $setting_ongkir->harga_jarak_minimal;
                             $total_charge = $jarak_kelebihan_ongkir_normal * $setting_ongkir->harga;
+                            $biaya_pengambilan = (($explode_jarak_pengambilan[0] - $pembagian_jarak_minimal) * 5000);
+                            $biaya_pengantaran = (($explode_jarak_pengambilan[0] - $pembagian_jarak_minimal) * 5000);
                         ?>
                         <tr align=center>
                             <td colspan="2">Jarak Pengambilan:</td>
@@ -175,15 +178,17 @@
                         <tr align=center>
                             <td colspan="2">Jarak Pengantaran:</td>
                             <td colspan="3"><?= $pesanan->jarak_pengantaran ?></td>
+                        </tr><tr align=center>
+                            <td colspan="2">Biaya Pengambilan:</td>
+                            <td colspan="3"><?= number_format($biaya_pengambilan,0,'.','.') ?></td>
+                        </tr><tr align=center>
+                            <td colspan="2">Biaya Pengantaran:</td>
+                            <td colspan="3"><?= number_format($biaya_pengantaran,0,'.','.') ?></td>
                         </tr>
-                        <tr align=center>
-                            <td colspan="2">Tarif Minimal:</td>
-                            <td colspan="3"><?= number_format($setting_ongkir->harga_jarak_minimal,0,'.','.')." = ". number_format($setting_ongkir->harga_jarak_minimal,0,'.','.') ?></td>
-                        </tr>
-                        <tr align=center>
-                            <td colspan="2">Detail Tarif Ongkir:</td>
-                            <td colspan="3"><?php echo $jarak_kelebihan_ongkir_normal." * ".number_format($setting_ongkir->harga,0,'.','.')." = ".number_format($total_charge,0,'.','.'); ?></td>
-                        </tr>
+                        <!--<tr align=center>-->
+                        <!--    <td colspan="2">Detail Tarif Ongkir:</td>-->
+                        <!--    <td colspan="3"><?php echo $jarak_kelebihan_ongkir_normal." * ".number_format($setting_ongkir->harga,0,'.','.')." = ".number_format($total_charge,0,'.','.'); ?></td>-->
+                        <!--</tr>-->
                         <tr>
                         <td colspan="5">Untuk pengiriman diatas 5 km maka akan dikenakan tarif tambahan <b><?= number_format($setting_ongkir->harga,0,'.','.') ?></b> / km</td>
                         </tr>
